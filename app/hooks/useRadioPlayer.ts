@@ -66,11 +66,10 @@ export function useRadioPlayer() {
     const onWaiting = () => {
       if (!reconnectingRef.current) setIsBuffering(true);
     };
-    const onStalled = () => {
-      if (!reconnectingRef.current) setIsBuffering(true);
-    };
     const onError = () => {
       if (reconnectingRef.current) return;
+      // Connection drops while paused are normal for live streams — ignore
+      if (isPausedRef.current) return;
       if (audio.src && stationRef.current) {
         setError("streamUnavailable");
         setIsPlaying(false);
@@ -88,14 +87,12 @@ export function useRadioPlayer() {
 
     audio.addEventListener("playing", onPlaying);
     audio.addEventListener("waiting", onWaiting);
-    audio.addEventListener("stalled", onStalled);
     audio.addEventListener("error", onError);
     audio.addEventListener("pause", onPause);
 
     return () => {
       audio.removeEventListener("playing", onPlaying);
       audio.removeEventListener("waiting", onWaiting);
-      audio.removeEventListener("stalled", onStalled);
       audio.removeEventListener("error", onError);
       audio.removeEventListener("pause", onPause);
       audio.pause();
@@ -140,7 +137,6 @@ export function useRadioPlayer() {
     setItem(STORAGE_KEYS.lastStation, station);
 
     audio.src = station.streamUrl;
-    audio.load();
     audio.play().catch(() => {
       setIsBuffering(false);
       setError("streamUnavailable");
@@ -192,12 +188,12 @@ export function useRadioPlayer() {
     setError(null);
 
     // Live radio streams lose their connection on pause (especially on iOS
-    // lock screen / PWA standalone). Suppress spurious events during reset,
-    // then open a fresh connection via load() + play().
+    // lock screen / PWA standalone). Suppress spurious events during the
+    // src reset, then open a completely fresh connection.
+    // A cache-busting param ensures iOS doesn't reuse a dead connection.
     reconnectingRef.current = true;
-    audio.pause();
-    audio.src = url;
-    audio.load();
+    const separator = url.includes("?") ? "&" : "?";
+    audio.src = `${url}${separator}_t=${Date.now()}`;
     audio.play().catch(() => {
       reconnectingRef.current = false;
       setIsBuffering(false);
