@@ -69,6 +69,14 @@ export function setMediaSessionPlaybackState(
   navigator.mediaSession.playbackState = state;
 }
 
+function isStandalone(): boolean {
+  if (typeof window === "undefined") return false;
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    ("standalone" in navigator && (navigator as unknown as { standalone: boolean }).standalone === true)
+  );
+}
+
 interface UseMediaSessionOptions {
   onTogglePlayPause: () => void;
   onPause: () => void;
@@ -78,6 +86,10 @@ interface UseMediaSessionOptions {
 /**
  * Register MediaSession action handlers ONCE on mount (like zen-launcher's initMediaSession).
  * Handlers read current callbacks via refs — no re-registration needed.
+ *
+ * In standalone PWA mode, pause triggers stop instead — iOS suspends the
+ * web process after ~30 s so resume from lock screen never works reliably.
+ * Stopping clears the media widget, which is cleaner than a broken pause.
  */
 export function useMediaSession({
   onTogglePlayPause,
@@ -94,11 +106,20 @@ export function useMediaSession({
   useEffect(() => {
     if (!("mediaSession" in navigator)) return;
 
+    const standalone = isStandalone();
+
     trySetHandler("play", () => toggleRef.current());
-    trySetHandler("pause", () => pauseRef.current());
+    trySetHandler(
+      "pause",
+      standalone
+        ? () => stopRef.current()
+        : () => pauseRef.current()
+    );
     trySetHandler("stop", () => stopRef.current());
-    trySetHandler("seekbackward", null);
-    trySetHandler("seekforward", null);
-    trySetHandler("seekto", null);
+
+    // Explicitly register no-op handlers to suppress default seek UI on iOS
+    trySetHandler("seekbackward", () => {});
+    trySetHandler("seekforward", () => {});
+    trySetHandler("seekto", () => {});
   }, []);
 }
