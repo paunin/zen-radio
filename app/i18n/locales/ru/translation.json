@@ -1,0 +1,23 @@
+{
+  "radioLabel": "Радио",
+  "searchPlaceholder": "Поиск радиостанций...",
+  "searching": "Поиск...",
+  "noResults": "Станции не найдены",
+  "searchFailed": "Ошибка поиска, попробуйте снова",
+  "results": "Результаты",
+  "recent": "Недавние",
+  "clear": "Очистить",
+  "showMore": "Показать ещё",
+  "showLess": "Свернуть",
+  "stations": "Станции",
+  "favorites": "Избранное",
+  "addToFavorites": "Добавить в избранное",
+  "removeFromFavorites": "Удалить из избранного",
+  "stop": "Стоп",
+  "volume": "Громкость",
+  "nowPlaying": "Сейчас играет",
+  "nothingPlaying": "Найдите или выберите станцию",
+  "streamUnavailable": "Поток недоступен",
+  "offline": "Нет подключения",
+  "presets": "Избранные станции"
+}

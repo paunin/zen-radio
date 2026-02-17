@@ -1,0 +1,23 @@
+{
+  "radioLabel": "ラジオ",
+  "searchPlaceholder": "ラジオ局を検索...",
+  "searching": "検索中...",
+  "noResults": "ステーションが見つかりません",
+  "searchFailed": "検索に失敗しました。もう一度お試しください",
+  "results": "結果",
+  "recent": "最近",
+  "clear": "クリア",
+  "showMore": "もっと見る",
+  "showLess": "閉じる",
+  "stations": "ステーション",
+  "favorites": "お気に入り",
+  "addToFavorites": "お気に入りに追加",
+  "removeFromFavorites": "お気に入りから削除",
+  "stop": "停止",
+  "volume": "音量",
+  "nowPlaying": "再生中",
+  "nothingPlaying": "ステーションを検索または選択してください",
+  "streamUnavailable": "ストリームが利用できません",
+  "offline": "オフラインです",
+  "presets": "プリセット"
+}

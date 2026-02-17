@@ -1,0 +1,23 @@
+{
+  "radioLabel": "电台",
+  "searchPlaceholder": "搜索电台...",
+  "searching": "搜索中...",
+  "noResults": "未找到电台",
+  "searchFailed": "搜索失败，请重试",
+  "results": "结果",
+  "recent": "最近收听",
+  "clear": "清除",
+  "showMore": "显示更多",
+  "showLess": "收起",
+  "stations": "电台",
+  "favorites": "收藏",
+  "addToFavorites": "添加到收藏",
+  "removeFromFavorites": "取消收藏",
+  "stop": "停止",
+  "volume": "音量",
+  "nowPlaying": "正在播放",
+  "nothingPlaying": "搜索或选择一个电台开始收听",
+  "streamUnavailable": "无法播放",
+  "offline": "您已离线",
+  "presets": "预设电台"
+}

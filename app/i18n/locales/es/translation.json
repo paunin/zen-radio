@@ -1,0 +1,23 @@
+{
+  "radioLabel": "Radio",
+  "searchPlaceholder": "Buscar estaciones de radio...",
+  "searching": "Buscando...",
+  "noResults": "No se encontraron estaciones",
+  "searchFailed": "Error en la búsqueda, intenta de nuevo",
+  "results": "Resultados",
+  "recent": "Recientes",
+  "clear": "Limpiar",
+  "showMore": "Mostrar más",
+  "showLess": "Mostrar menos",
+  "stations": "Estaciones",
+  "favorites": "Favoritos",
+  "addToFavorites": "Añadir a favoritos",
+  "removeFromFavorites": "Quitar de favoritos",
+  "stop": "Detener",
+  "volume": "Volumen",
+  "nowPlaying": "Reproduciendo",
+  "nothingPlaying": "Busca o elige una estación para comenzar",
+  "streamUnavailable": "Transmisión no disponible",
+  "offline": "Estás sin conexión",
+  "presets": "Preajustes"
+}

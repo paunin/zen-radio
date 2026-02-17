@@ -1,4 +1,4 @@
-name: Build Chrome Extension
+name: Build Zen Radio
 
 on:
   push:
@@ -13,33 +13,35 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get version from manifest
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Get version
         id: version
         run: |
-          VERSION=$(jq -r '.version' manifest.json)
+          VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Extension version: $VERSION"
 
-      - name: Create extension ZIP
-        run: |
-          # Create a clean ZIP excluding dev/git files
-          zip -r zen-launcher-${{ steps.version.outputs.version }}.zip . \
-            -x "*.git*" \
-            -x "*.github*" \
-            -x "*.DS_Store" \
-            -x "*.md" \
-            -x "package*.json" \
-            -x "node_modules/*" \
-            -x "*.log"
-
-      - name: Upload artifact
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: zen-launcher-${{ steps.version.outputs.version }}
-          path: zen-launcher-${{ steps.version.outputs.version }}.zip
+          name: zen-radio-${{ steps.version.outputs.version }}
+          path: build/
           retention-days: 90
