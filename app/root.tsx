@@ -31,14 +31,14 @@ export const meta: MetaFunction = () => [
   { property: "og:title", content: "Zen Radio" },
   { property: "og:description", content: DESCRIPTION },
   { property: "og:type", content: "website" },
-  { property: "og:image", content: "/images/icon-512.png" },
-  { property: "og:image:width", content: "512" },
-  { property: "og:image:height", content: "512" },
+  { property: "og:image", content: "/images/meta.png" },
+  { property: "og:image:width", content: "1200" },
+  { property: "og:image:height", content: "630" },
   // Twitter Card
-  { name: "twitter:card", content: "summary" },
+  { name: "twitter:card", content: "summary_large_image" },
   { name: "twitter:title", content: "Zen Radio" },
   { name: "twitter:description", content: DESCRIPTION },
-  { name: "twitter:image", content: "/images/icon-512.png" },
+  { name: "twitter:image", content: "/images/meta.png" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
