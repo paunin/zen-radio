@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { RadioProvider, useRadio } from "~/context/RadioContext";
@@ -7,10 +7,27 @@ import { AppShell } from "~/components/Layout/AppShell";
 import { TransportControls } from "~/components/TransportControls/TransportControls";
 import { StationBrowser } from "~/components/StationBrowser/StationBrowser";
 import { Toast } from "~/components/ui/Toast";
+import { getStationByUUID } from "~/lib/api";
 
 function RadioApp() {
   const { t } = useTranslation();
   const { state, actions, searchInputRef } = useRadio();
+  const deepLinkHandled = useRef(false);
+
+  useEffect(() => {
+    if (deepLinkHandled.current) return;
+    deepLinkHandled.current = true;
+
+    const params = new URLSearchParams(window.location.search);
+    const uuid = params.get("s");
+    if (!uuid) return;
+
+    window.history.replaceState({}, "", window.location.pathname);
+
+    getStationByUUID(uuid).then((station) => {
+      if (station) actions.load(station);
+    });
+  }, [actions]);
 
   const focusSearch = useCallback(() => {
     searchInputRef.current?.focus();

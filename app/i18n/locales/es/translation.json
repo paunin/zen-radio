@@ -21,5 +21,7 @@
   "offline": "Estás sin conexión",
   "welcomeTitle": "Tu Espacio Zen",
   "welcomeDescription": "Descubre miles de estaciones de radio de todo el mundo. Busca por género, estado de ánimo o nombre — y deja que la música fluya.",
-  "welcomeHint": "Usa la barra de búsqueda para comenzar"
+  "welcomeHint": "Usa la barra de búsqueda para comenzar",
+  "share": "Compartir",
+  "linkCopied": "¡Copiado!"
 }

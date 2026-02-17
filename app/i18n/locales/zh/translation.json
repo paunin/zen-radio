@@ -21,5 +21,7 @@
   "offline": "您已离线",
   "welcomeTitle": "您的 Zen 空间",
   "welcomeDescription": "探索来自世界各地的数千个电台。按流派、心情或名称搜索，然后让音乐自由流淌。",
-  "welcomeHint": "使用上方搜索栏开始探索"
+  "welcomeHint": "使用上方搜索栏开始探索",
+  "share": "分享",
+  "linkCopied": "已复制！"
 }

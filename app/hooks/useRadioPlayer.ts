@@ -12,12 +12,14 @@ export interface RadioPlayerState {
   isPlaying: boolean;
   isPaused: boolean;
   isBuffering: boolean;
+  pendingPlay: boolean;
   volume: number;
   error: string | null;
 }
 
 export interface RadioPlayerActions {
   play: (station: Station) => void;
+  load: (station: Station) => void;
   pause: () => void;
   resume: () => void;
   stop: () => void;
@@ -32,6 +34,7 @@ export function useRadioPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
+  const [pendingPlay, setPendingPlay] = useState(false);
   const [volume, setVolumeState] = useState(() =>
     getItem<number>(STORAGE_KEYS.volume, DEFAULT_VOLUME)
   );
@@ -103,6 +106,7 @@ export function useRadioPlayer() {
   const play = useCallback((station: Station) => {
     const audio = audioRef.current;
     if (!audio) return;
+    setPendingPlay(false);
 
     if (stationRef.current?.id === station.id && !audio.paused) {
       audio.pause();
@@ -137,6 +141,29 @@ export function useRadioPlayer() {
     setMediaSessionPlaybackState("playing");
   }, []);
 
+  const load = useCallback((station: Station) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.pause();
+    audio.src = "";
+    setError(null);
+    setIsPlaying(false);
+    setIsBuffering(false);
+    setPendingPlay(true);
+
+    setCurrentStation(station);
+    stationRef.current = station;
+    setIsPaused(true);
+    isPausedRef.current = true;
+    setItem(STORAGE_KEYS.lastStation, station);
+
+    audio.src = station.streamUrl;
+
+    setMediaSessionMetadata(station);
+    setMediaSessionPlaybackState("paused");
+  }, []);
+
   const pause = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
@@ -148,6 +175,7 @@ export function useRadioPlayer() {
   const resume = useCallback(() => {
     const audio = audioRef.current;
     if (!audio || !audio.src) return;
+    setPendingPlay(false);
     setIsPaused(false);
     setIsBuffering(true);
     audio.play().catch(() => {
@@ -161,6 +189,7 @@ export function useRadioPlayer() {
   const stop = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    setPendingPlay(false);
     audio.pause();
     audio.src = "";
     setCurrentStation(null);
@@ -196,11 +225,13 @@ export function useRadioPlayer() {
       isPlaying,
       isPaused,
       isBuffering,
+      pendingPlay,
       volume,
       error,
     },
     actions: {
       play,
+      load,
       pause,
       resume,
       stop,

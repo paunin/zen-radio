@@ -1,8 +1,13 @@
-import { memo } from "react";
+import { memo, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import type { Station } from "~/types/station";
 import { Icon } from "~/components/ui/Icon";
 import { PlayingIndicator } from "./PlayingIndicator";
+
+function getShareUrl(station: Station): string {
+  const uuid = station.id.replace(/^rb-/, "");
+  return `${window.location.origin}/?s=${uuid}`;
+}
 
 interface StationRowProps {
   station: Station;
@@ -25,6 +30,27 @@ export const StationRow = memo(function StationRow({
   children,
 }: StationRowProps) {
   const { t } = useTranslation();
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      const url = getShareUrl(station);
+
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: station.name, url });
+        } catch {
+          // User cancelled or share failed — ignore
+        }
+      } else {
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    },
+    [station]
+  );
 
   return (
     <div
@@ -67,6 +93,19 @@ export const StationRow = memo(function StationRow({
         {children}
       </div>
 
+      {/* Share button */}
+      <button
+        onClick={handleShare}
+        className="flex-shrink-0 p-1 rounded transition-colors duration-150 cursor-pointer text-text-secondary/30 hover:text-accent"
+        aria-label={t("share")}
+      >
+        {copied ? (
+          <span className="text-[0.6rem] text-accent leading-none">{t("linkCopied")}</span>
+        ) : (
+          <Icon name="share" size={18} />
+        )}
+      </button>
+
       {/* Favorite button */}
       <button
         onClick={(e) => {
@@ -82,7 +121,7 @@ export const StationRow = memo(function StationRow({
         `}
         aria-label={isFavorite ? t("removeFromFavorites") : t("addToFavorites")}
       >
-        <Icon name={isFavorite ? "star" : "starOutline"} size={16} />
+        <Icon name={isFavorite ? "star" : "starOutline"} size={32} />
       </button>
     </div>
   );

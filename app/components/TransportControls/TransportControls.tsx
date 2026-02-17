@@ -41,6 +41,7 @@ export function TransportControls() {
             isPlaying={state.isPlaying}
             isPaused={state.isPaused}
             isBuffering={state.isBuffering}
+            pendingPlay={state.pendingPlay}
             onClick={actions.togglePlayPause}
           />
           <StopButton onClick={actions.stop} disabled={!hasStation} />

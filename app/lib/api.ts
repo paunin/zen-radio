@@ -50,3 +50,14 @@ export async function searchStations(
   const data: RadioBrowserStation[] = await response.json();
   return data.map(mapToStation).filter((s): s is Station => s !== null);
 }
+
+export async function getStationByUUID(uuid: string): Promise<Station | null> {
+  const response = await fetch(`${API_BASE}/json/stations/byuuid/${uuid}`);
+
+  if (!response.ok) return null;
+
+  const data: RadioBrowserStation[] = await response.json();
+  if (!data.length) return null;
+
+  return mapToStation(data[0]);
+}

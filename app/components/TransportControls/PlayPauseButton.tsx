@@ -5,6 +5,7 @@ interface PlayPauseButtonProps {
   isPlaying: boolean;
   isPaused: boolean;
   isBuffering: boolean;
+  pendingPlay: boolean;
   onClick: () => void;
 }
 
@@ -12,10 +13,12 @@ export const PlayPauseButton = memo(function PlayPauseButton({
   isPlaying,
   isPaused,
   isBuffering,
+  pendingPlay,
   onClick,
 }: PlayPauseButtonProps) {
   const iconName = isPlaying && !isPaused ? "pause" : "play";
   const isActive = isPlaying || isPaused;
+  const shouldPulse = pendingPlay;
 
   return (
     <button
@@ -29,6 +32,7 @@ export const PlayPauseButton = memo(function PlayPauseButton({
           : "bg-white/10 text-text-primary hover:bg-white/15"
         }
         ${isBuffering ? "opacity-50 cursor-wait" : ""}
+        ${shouldPulse ? "animate-[pulse-glow_2s_ease-in-out_infinite]" : ""}
         active:scale-95
       `}
       aria-label={isPlaying && !isPaused ? "Pause" : "Play"}

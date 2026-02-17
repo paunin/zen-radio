@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useRadio } from "~/context/RadioContext";
 import { useStationSearch } from "~/hooks/useStationSearch";
@@ -36,6 +37,14 @@ export function StationBrowser() {
   const search = useStationSearch();
   const isSearchActive = search.query.length > 0;
   const hasContent = state.favorites.length > 0 || state.recentStations.length > 0;
+  const prevStationId = useRef(state.currentStation?.id);
+
+  useEffect(() => {
+    if (state.currentStation?.id && state.currentStation.id !== prevStationId.current && isSearchActive) {
+      search.clearSearch();
+    }
+    prevStationId.current = state.currentStation?.id;
+  }, [state.currentStation?.id, isSearchActive, search]);
 
   return (
     <div className="flex flex-col gap-2 h-full min-h-0">

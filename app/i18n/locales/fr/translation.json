@@ -21,5 +21,7 @@
   "offline": "Vous êtes hors ligne",
   "welcomeTitle": "Votre Espace Zen",
   "welcomeDescription": "Découvrez des milliers de stations de radio du monde entier. Recherchez un genre, une ambiance ou un nom — puis laissez la musique vous porter.",
-  "welcomeHint": "Utilisez la barre de recherche pour commencer"
+  "welcomeHint": "Utilisez la barre de recherche pour commencer",
+  "share": "Partager",
+  "linkCopied": "Copié !"
 }

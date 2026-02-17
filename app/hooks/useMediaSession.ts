@@ -51,7 +51,7 @@ export function setMediaSessionMetadata(station: Station | null) {
 
     navigator.mediaSession.metadata = new MediaMetadata({
       title: station.name,
-      artist: station.description || "Zen Radio",
+      artist: station.tags || "Zen Radio",
       album: "Zen Radio",
       artwork,
     });

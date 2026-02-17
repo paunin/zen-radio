@@ -18,6 +18,7 @@ interface RadioState {
   isPlaying: boolean;
   isPaused: boolean;
   isBuffering: boolean;
+  pendingPlay: boolean;
   volume: number;
   recentStations: Station[];
   favorites: Station[];
@@ -26,6 +27,7 @@ interface RadioState {
 
 interface RadioActions {
   play: (station: Station) => void;
+  load: (station: Station) => void;
   pause: () => void;
   resume: () => void;
   stop: () => void;
@@ -51,10 +53,18 @@ export function RadioProvider({ children }: { children: ReactNode }) {
   const { recentStations, addRecent, clearRecent } = useRecentStations();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
 
-  // Wrap play to also track recent
+  // Wrap play and load to also track recent
   const play = useCallback(
     (station: Station) => {
       player.actions.play(station);
+      addRecent(station);
+    },
+    [player.actions, addRecent]
+  );
+
+  const load = useCallback(
+    (station: Station) => {
+      player.actions.load(station);
       addRecent(station);
     },
     [player.actions, addRecent]
@@ -83,6 +93,7 @@ export function RadioProvider({ children }: { children: ReactNode }) {
     isPlaying: player.state.isPlaying,
     isPaused: player.state.isPaused,
     isBuffering: player.state.isBuffering,
+    pendingPlay: player.state.pendingPlay,
     volume: player.state.volume,
     error: player.state.error,
     recentStations,
@@ -91,6 +102,7 @@ export function RadioProvider({ children }: { children: ReactNode }) {
 
   const actions: RadioActions = {
     play,
+    load,
     pause: player.actions.pause,
     resume: player.actions.resume,
     stop: player.actions.stop,

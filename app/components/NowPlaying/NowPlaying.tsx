@@ -48,10 +48,10 @@ export function NowPlaying() {
           </div>
         </div>
 
-        {/* Description */}
-        {currentStation?.description && (
+        {/* Tags (no country — country only shown in the station list) */}
+        {currentStation?.tags && (
           <p className="text-text-secondary text-xs truncate mt-0.5">
-            {currentStation.description}
+            {currentStation.tags}
           </p>
         )}
 
