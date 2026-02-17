@@ -109,12 +109,7 @@ export function useMediaSession({
     const standalone = isStandalone();
 
     trySetHandler("play", () => toggleRef.current());
-    trySetHandler(
-      "pause",
-      standalone
-        ? () => stopRef.current()
-        : () => pauseRef.current()
-    );
+    trySetHandler("pause", () => pauseRef.current());
     trySetHandler("stop", () => stopRef.current());
 
     // Explicitly register no-op handlers to suppress default seek UI on iOS
