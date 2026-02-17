@@ -19,5 +19,7 @@
   "nothingPlaying": "ステーションを検索または選択してください",
   "streamUnavailable": "ストリームが利用できません",
   "offline": "オフラインです",
-  "presets": "プリセット"
+  "welcomeTitle": "あなたのZen空間",
+  "welcomeDescription": "世界中の何千ものラジオ局を発見しましょう。ジャンル、気分、局名で検索して、音楽に身を委ねてください。",
+  "welcomeHint": "上の検索バーから始めましょう"
 }

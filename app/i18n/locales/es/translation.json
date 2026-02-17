@@ -19,5 +19,7 @@
   "nothingPlaying": "Busca o elige una estación para comenzar",
   "streamUnavailable": "Transmisión no disponible",
   "offline": "Estás sin conexión",
-  "presets": "Preajustes"
+  "welcomeTitle": "Tu Espacio Zen",
+  "welcomeDescription": "Descubre miles de estaciones de radio de todo el mundo. Busca por género, estado de ánimo o nombre — y deja que la música fluya.",
+  "welcomeHint": "Usa la barra de búsqueda para comenzar"
 }

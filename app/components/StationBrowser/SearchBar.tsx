@@ -26,7 +26,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           onChange={(e) => onChange(e.target.value)}
           placeholder={t("searchPlaceholder")}
           className="w-full pl-9 pr-8 py-2.5 rounded-lg bg-white/5 border border-border
-            text-sm text-text-primary placeholder:text-text-secondary/60
+            text-base text-text-primary placeholder:text-text-secondary/60
             focus:outline-none focus:border-accent/30 focus:bg-white/8
             transition-colors duration-200"
         />

@@ -19,5 +19,7 @@
   "nothingPlaying": "Search or pick a station to begin",
   "streamUnavailable": "Stream unavailable",
   "offline": "You are offline",
-  "presets": "Presets"
+  "welcomeTitle": "Your Zen Space",
+  "welcomeDescription": "Discover thousands of radio stations from around the world. Search for a genre, mood, or station name — then sit back and let the music flow.",
+  "welcomeHint": "Use the search bar above to get started"
 }

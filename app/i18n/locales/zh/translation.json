@@ -19,5 +19,7 @@
   "nothingPlaying": "搜索或选择一个电台开始收听",
   "streamUnavailable": "无法播放",
   "offline": "您已离线",
-  "presets": "预设电台"
+  "welcomeTitle": "您的 Zen 空间",
+  "welcomeDescription": "探索来自世界各地的数千个电台。按流派、心情或名称搜索，然后让音乐自由流淌。",
+  "welcomeHint": "使用上方搜索栏开始探索"
 }

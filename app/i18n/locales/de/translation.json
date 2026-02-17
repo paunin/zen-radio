@@ -19,5 +19,7 @@
   "nothingPlaying": "Suche oder wähle einen Sender",
   "streamUnavailable": "Stream nicht verfügbar",
   "offline": "Du bist offline",
-  "presets": "Voreinstellungen"
+  "welcomeTitle": "Dein Zen-Raum",
+  "welcomeDescription": "Entdecke tausende Radiosender aus aller Welt. Suche nach Genre, Stimmung oder Name — und lass die Musik fließen.",
+  "welcomeHint": "Nutze die Suchleiste oben, um loszulegen"
 }

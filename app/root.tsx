@@ -21,7 +21,7 @@ export const meta: MetaFunction = () => [
   { title: "Zen Radio" },
   { name: "description", content: "A beautiful internet radio player" },
   { name: "theme-color", content: "#111111" },
-  { name: "viewport", content: "width=device-width, initial-scale=1" },
+  { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" },
   { name: "apple-mobile-web-app-capable", content: "yes" },
   { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
 ];

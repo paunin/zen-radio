@@ -3,7 +3,7 @@ export interface Station {
   name: string;
   description: string;
   streamUrl: string;
-  source: "SomaFM" | "Radio Browser";
+  source: "Radio Browser";
   votes?: number;
   clickcount?: number;
   clicktrend?: number;
