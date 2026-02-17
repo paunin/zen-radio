@@ -60,11 +60,10 @@ export function RadioProvider({ children }: { children: ReactNode }) {
     [player.actions, addRecent]
   );
 
-  // MediaSession integration for hardware media keys (keyboard, lock screen, headphones)
+  // MediaSession integration for hardware media keys (keyboard, lock screen, headphones).
+  // Metadata and playbackState are set imperatively inside useRadioPlayer actions
+  // (matching zen-launcher's synchronous approach). This hook only registers handlers once.
   useMediaSession({
-    station: player.state.currentStation,
-    isPlaying: player.state.isPlaying,
-    isPaused: player.state.isPaused,
     onTogglePlayPause: player.actions.togglePlayPause,
     onPause: player.actions.pause,
     onStop: player.actions.stop,

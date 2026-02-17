@@ -2,6 +2,10 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import type { Station } from "~/types/station";
 import { getItem, setItem, STORAGE_KEYS } from "~/lib/storage";
 import { DEFAULT_VOLUME } from "~/lib/constants";
+import {
+  setMediaSessionMetadata,
+  setMediaSessionPlaybackState,
+} from "~/hooks/useMediaSession";
 
 export interface RadioPlayerState {
   currentStation: Station | null;
@@ -33,7 +37,6 @@ export function useRadioPlayer() {
   );
   const [error, setError] = useState<string | null>(null);
 
-  // Stable refs for callbacks to read current state without re-creating functions
   const stationRef = useRef<Station | null>(null);
   const isPlayingRef = useRef(false);
   const isPausedRef = useRef(false);
@@ -41,7 +44,6 @@ export function useRadioPlayer() {
   isPlayingRef.current = isPlaying;
   isPausedRef.current = isPaused;
 
-  // Initialize audio element once — no crossOrigin to avoid CORS issues with radio streams
   useEffect(() => {
     if (!audioRef.current) {
       audioRef.current = new Audio();
@@ -53,11 +55,12 @@ export function useRadioPlayer() {
       setIsPlaying(true);
       setIsPaused(false);
       setError(null);
+      // Belt-and-suspenders: also set imperatively on the audio event
+      setMediaSessionPlaybackState("playing");
     };
     const onWaiting = () => setIsBuffering(true);
     const onStalled = () => setIsBuffering(true);
     const onError = () => {
-      // Only report errors when we actually tried to load a stream
       if (audio.src && stationRef.current) {
         setError("streamUnavailable");
         setIsPlaying(false);
@@ -68,6 +71,8 @@ export function useRadioPlayer() {
       if (audio.src && stationRef.current) {
         setIsPaused(true);
         setIsPlaying(false);
+        // Belt-and-suspenders: also set imperatively on the audio event
+        setMediaSessionPlaybackState("paused");
       }
     };
 
@@ -88,7 +93,6 @@ export function useRadioPlayer() {
     };
   }, []);
 
-  // Sync volume to audio element
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume / 100;
@@ -100,7 +104,6 @@ export function useRadioPlayer() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Toggle off if same station is already playing
     if (stationRef.current?.id === station.id && !audio.paused) {
       audio.pause();
       audio.src = "";
@@ -108,10 +111,11 @@ export function useRadioPlayer() {
       setIsPlaying(false);
       setIsPaused(false);
       setIsBuffering(false);
+      setMediaSessionMetadata(null);
+      setMediaSessionPlaybackState("none");
       return;
     }
 
-    // Stop current before starting new
     audio.pause();
     setError(null);
     setIsBuffering(true);
@@ -123,15 +127,22 @@ export function useRadioPlayer() {
     setItem(STORAGE_KEYS.lastStation, station);
 
     audio.src = station.streamUrl;
-    audio.load();
     audio.play().catch(() => {
       setIsBuffering(false);
       setError("streamUnavailable");
     });
+
+    // Set metadata + playbackState SYNCHRONOUSLY — critical for Chrome macOS media keys
+    setMediaSessionMetadata(station);
+    setMediaSessionPlaybackState("playing");
   }, []);
 
   const pause = useCallback(() => {
-    audioRef.current?.pause();
+    if (audioRef.current) {
+      audioRef.current.pause();
+      // Set immediately — don't wait for React effect
+      setMediaSessionPlaybackState("paused");
+    }
   }, []);
 
   const resume = useCallback(() => {
@@ -143,6 +154,8 @@ export function useRadioPlayer() {
       setIsBuffering(false);
       setError("streamUnavailable");
     });
+    // Set immediately — don't wait for React effect
+    setMediaSessionPlaybackState("playing");
   }, []);
 
   const stop = useCallback(() => {
@@ -156,9 +169,10 @@ export function useRadioPlayer() {
     setIsPaused(false);
     setIsBuffering(false);
     setError(null);
+    // Keep "paused" so Chrome macOS retains media session for re-play via key
+    setMediaSessionPlaybackState("paused");
   }, []);
 
-  // togglePlayPause reads refs so the function identity is stable (never changes)
   const togglePlayPause = useCallback(() => {
     if (isPausedRef.current) {
       resume();
