@@ -17,13 +17,28 @@ export const links: LinksFunction = () => [
   { rel: "apple-touch-icon", href: "/images/icon-192.png" },
 ];
 
+const DESCRIPTION =
+  "Tune in, breathe out. Thousands of internet radio stations in a calm, minimal player — your moment of stillness in a noisy world.";
+
 export const meta: MetaFunction = () => [
   { title: "Zen Radio" },
-  { name: "description", content: "A beautiful internet radio player" },
+  { name: "description", content: DESCRIPTION },
   { name: "theme-color", content: "#111111" },
   { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" },
   { name: "apple-mobile-web-app-capable", content: "yes" },
   { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+  // Open Graph
+  { property: "og:title", content: "Zen Radio" },
+  { property: "og:description", content: DESCRIPTION },
+  { property: "og:type", content: "website" },
+  { property: "og:image", content: "/images/icon-512.png" },
+  { property: "og:image:width", content: "512" },
+  { property: "og:image:height", content: "512" },
+  // Twitter Card
+  { name: "twitter:card", content: "summary" },
+  { name: "twitter:title", content: "Zen Radio" },
+  { name: "twitter:description", content: DESCRIPTION },
+  { name: "twitter:image", content: "/images/icon-512.png" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {

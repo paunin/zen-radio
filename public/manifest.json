@@ -1,9 +1,10 @@
 {
   "name": "Zen Radio",
   "short_name": "Zen Radio",
-  "description": "A beautiful internet radio player",
+  "description": "Tune in, breathe out. Thousands of internet radio stations in a calm, minimal player.",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "theme_color": "#111111",
   "background_color": "#111111",
   "icons": [
