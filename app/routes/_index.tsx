@@ -30,6 +30,14 @@ function RadioApp() {
     });
   }, [actions]);
 
+  useEffect(() => {
+    if (state.currentStation && (state.isPlaying || state.isPaused)) {
+      document.title = `${state.currentStation.name} — Zen Radio`;
+    } else {
+      document.title = "Zen Radio";
+    }
+  }, [state.currentStation?.name, state.isPlaying, state.isPaused]);
+
   const focusSearch = useCallback(() => {
     searchInputRef.current?.focus();
   }, [searchInputRef]);
