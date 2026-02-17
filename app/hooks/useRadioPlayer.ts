@@ -43,6 +43,8 @@ export function useRadioPlayer() {
   const stationRef = useRef<Station | null>(null);
   const isPlayingRef = useRef(false);
   const isPausedRef = useRef(false);
+  const streamUrlRef = useRef<string>("");
+  const reconnectingRef = useRef(false);
   stationRef.current = currentStation;
   isPlayingRef.current = isPlaying;
   isPausedRef.current = isPaused;
@@ -54,16 +56,21 @@ export function useRadioPlayer() {
     const audio = audioRef.current;
 
     const onPlaying = () => {
+      reconnectingRef.current = false;
       setIsBuffering(false);
       setIsPlaying(true);
       setIsPaused(false);
       setError(null);
-      // Belt-and-suspenders: also set imperatively on the audio event
       setMediaSessionPlaybackState("playing");
     };
-    const onWaiting = () => setIsBuffering(true);
-    const onStalled = () => setIsBuffering(true);
+    const onWaiting = () => {
+      if (!reconnectingRef.current) setIsBuffering(true);
+    };
+    const onStalled = () => {
+      if (!reconnectingRef.current) setIsBuffering(true);
+    };
     const onError = () => {
+      if (reconnectingRef.current) return;
       if (audio.src && stationRef.current) {
         setError("streamUnavailable");
         setIsPlaying(false);
@@ -71,10 +78,10 @@ export function useRadioPlayer() {
       }
     };
     const onPause = () => {
+      if (reconnectingRef.current) return;
       if (audio.src && stationRef.current) {
         setIsPaused(true);
         setIsPlaying(false);
-        // Belt-and-suspenders: also set imperatively on the audio event
         setMediaSessionPlaybackState("paused");
       }
     };
@@ -111,6 +118,7 @@ export function useRadioPlayer() {
     if (stationRef.current?.id === station.id && !audio.paused) {
       audio.pause();
       audio.src = "";
+      streamUrlRef.current = "";
       setCurrentStation(null);
       setIsPlaying(false);
       setIsPaused(false);
@@ -128,15 +136,16 @@ export function useRadioPlayer() {
 
     setCurrentStation(station);
     stationRef.current = station;
+    streamUrlRef.current = station.streamUrl;
     setItem(STORAGE_KEYS.lastStation, station);
 
     audio.src = station.streamUrl;
+    audio.load();
     audio.play().catch(() => {
       setIsBuffering(false);
       setError("streamUnavailable");
     });
 
-    // Set metadata + playbackState SYNCHRONOUSLY — critical for Chrome macOS media keys
     setMediaSessionMetadata(station);
     setMediaSessionPlaybackState("playing");
   }, []);
@@ -154,6 +163,7 @@ export function useRadioPlayer() {
 
     setCurrentStation(station);
     stationRef.current = station;
+    streamUrlRef.current = station.streamUrl;
     setIsPaused(true);
     isPausedRef.current = true;
     setItem(STORAGE_KEYS.lastStation, station);
@@ -167,29 +177,33 @@ export function useRadioPlayer() {
   const pause = useCallback(() => {
     if (audioRef.current) {
       audioRef.current.pause();
-      // Set immediately — don't wait for React effect
       setMediaSessionPlaybackState("paused");
     }
   }, []);
 
   const resume = useCallback(() => {
     const audio = audioRef.current;
-    if (!audio || !audio.src) return;
+    const url = streamUrlRef.current;
+    if (!audio || !url) return;
+
     setPendingPlay(false);
     setIsPaused(false);
     setIsBuffering(true);
+    setError(null);
 
-    // Live radio streams drop the connection on pause (especially on iOS
-    // lock screen). Re-assign src to force a fresh connection.
-    const src = audio.src;
-    audio.src = "";
-    audio.src = src;
-
+    // Live radio streams lose their connection on pause (especially on iOS
+    // lock screen / PWA standalone). Suppress spurious events during reset,
+    // then open a fresh connection via load() + play().
+    reconnectingRef.current = true;
+    audio.pause();
+    audio.src = url;
+    audio.load();
     audio.play().catch(() => {
+      reconnectingRef.current = false;
       setIsBuffering(false);
       setError("streamUnavailable");
     });
-    // Set immediately — don't wait for React effect
+
     setMediaSessionPlaybackState("playing");
   }, []);
 
@@ -199,13 +213,13 @@ export function useRadioPlayer() {
     setPendingPlay(false);
     audio.pause();
     audio.src = "";
+    streamUrlRef.current = "";
     setCurrentStation(null);
     stationRef.current = null;
     setIsPlaying(false);
     setIsPaused(false);
     setIsBuffering(false);
     setError(null);
-    // Keep "paused" so Chrome macOS retains media session for re-play via key
     setMediaSessionPlaybackState("paused");
   }, []);
 
