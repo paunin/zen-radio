@@ -23,5 +23,9 @@
   "welcomeDescription": "Descubre miles de estaciones de radio de todo el mundo. Busca por género, estado de ánimo o nombre — y deja que la música fluya.",
   "welcomeHint": "Usa la barra de búsqueda para comenzar",
   "share": "Compartir",
-  "linkCopied": "¡Copiado!"
+  "linkCopied": "¡Copiado!",
+  "pwaTitle": "Añadir a pantalla de inicio",
+  "pwaDescription": "Instala Zen Radio para una experiencia a pantalla completa y sin conexión.",
+  "pwaShareStep": "Pulsa el botón 'Compartir' en la barra de menú",
+  "pwaAddStep": "Pulsa 'Añadir a pantalla de inicio'"
 }

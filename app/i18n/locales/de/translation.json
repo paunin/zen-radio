@@ -23,5 +23,9 @@
   "welcomeDescription": "Entdecke tausende Radiosender aus aller Welt. Suche nach Genre, Stimmung oder Name — und lass die Musik fließen.",
   "welcomeHint": "Nutze die Suchleiste oben, um loszulegen",
   "share": "Teilen",
-  "linkCopied": "Kopiert!"
+  "linkCopied": "Kopiert!",
+  "pwaTitle": "Zum Home-Bildschirm",
+  "pwaDescription": "Installiere Zen Radio für ein Vollbild-Erlebnis mit Offline-Unterstützung.",
+  "pwaShareStep": "Tippe auf 'Teilen' in der Menüleiste unten",
+  "pwaAddStep": "Tippe auf 'Zum Home-Bildschirm'"
 }

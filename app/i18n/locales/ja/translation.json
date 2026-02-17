@@ -23,5 +23,9 @@
   "welcomeDescription": "世界中の何千ものラジオ局を発見しましょう。ジャンル、気分、局名で検索して、音楽に身を委ねてください。",
   "welcomeHint": "上の検索バーから始めましょう",
   "share": "共有",
-  "linkCopied": "コピーしました！"
+  "linkCopied": "コピーしました！",
+  "pwaTitle": "ホーム画面に追加",
+  "pwaDescription": "Zen Radioをインストールして、フルスクリーンとオフラインで使いましょう。",
+  "pwaShareStep": "下のメニューバーの「共有」ボタンをタップ",
+  "pwaAddStep": "「ホーム画面に追加」をタップ"
 }

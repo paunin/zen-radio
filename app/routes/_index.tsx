@@ -7,6 +7,7 @@ import { AppShell } from "~/components/Layout/AppShell";
 import { TransportControls } from "~/components/TransportControls/TransportControls";
 import { StationBrowser } from "~/components/StationBrowser/StationBrowser";
 import { Toast } from "~/components/ui/Toast";
+import { PWAInstallPrompt } from "~/components/PWAInstallPrompt";
 import { getStationByUUID } from "~/lib/api";
 
 function RadioApp() {
@@ -62,6 +63,8 @@ function RadioApp() {
       <div className="flex-shrink-0 pb-[env(safe-area-inset-bottom)]">
         <TransportControls />
       </div>
+
+      <PWAInstallPrompt />
     </AppShell>
   );
 }
