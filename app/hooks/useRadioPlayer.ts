@@ -178,6 +178,13 @@ export function useRadioPlayer() {
     setPendingPlay(false);
     setIsPaused(false);
     setIsBuffering(true);
+
+    // Live radio streams drop the connection on pause (especially on iOS
+    // lock screen). Re-assign src to force a fresh connection.
+    const src = audio.src;
+    audio.src = "";
+    audio.src = src;
+
     audio.play().catch(() => {
       setIsBuffering(false);
       setError("streamUnavailable");
