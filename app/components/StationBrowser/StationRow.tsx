@@ -55,7 +55,7 @@ export const StationRow = memo(function StationRow({
   return (
     <div
       className={`
-        flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer
+        flex items-center gap-3 px-3 py-2 cursor-pointer
         transition-colors duration-150 group min-h-[44px]
         ${isCurrentStation ? "bg-playing text-accent" : "hover:bg-hover text-text-primary"}
       `}

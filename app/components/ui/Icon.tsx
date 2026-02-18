@@ -1,9 +1,10 @@
-import { memo } from "react";
+import { memo, forwardRef } from "react";
 
 interface IconProps {
   name: string;
   size?: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const paths: Record<string, string> = {
@@ -27,22 +28,30 @@ const paths: Record<string, string> = {
   music: "M12 3v10.55A4 4 0 1014 17V7h4V3h-6z",
   waveform: "M3 12h2v6H3zm4-4h2v14H7zm4-4h2v22h-2zm4 4h2v14h-2zm4 4h2v6h-2z",
   share: "M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z",
+  trash: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z",
 };
 
-export const Icon = memo(function Icon({ name, size = 24, className = "" }: IconProps) {
-  const d = paths[name];
-  if (!d) return null;
+export const Icon = memo(
+  forwardRef<SVGSVGElement, IconProps>(function Icon(
+    { name, size = 24, className = "", style },
+    ref
+  ) {
+    const d = paths[name];
+    if (!d) return null;
 
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d={d} />
-    </svg>
-  );
-});
+    return (
+      <svg
+        ref={ref}
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className={className}
+        style={style}
+        aria-hidden="true"
+      >
+        <path d={d} />
+      </svg>
+    );
+  })
+);

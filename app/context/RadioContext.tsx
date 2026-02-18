@@ -35,6 +35,7 @@ interface RadioActions {
   setVolume: (v: number) => void;
   toggleFavorite: (station: Station) => void;
   isFavorite: (stationId: string) => boolean;
+  removeRecent: (stationId: string) => void;
   clearRecent: () => void;
 }
 
@@ -50,7 +51,7 @@ export function RadioProvider({ children }: { children: ReactNode }) {
   const searchInputRef = useRef<HTMLInputElement>(null!);
 
   const player = useRadioPlayer();
-  const { recentStations, addRecent, clearRecent } = useRecentStations();
+  const { recentStations, addRecent, removeRecent, clearRecent } = useRecentStations();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
 
   // Wrap play and load to also track recent
@@ -110,6 +111,7 @@ export function RadioProvider({ children }: { children: ReactNode }) {
     setVolume: player.actions.setVolume,
     toggleFavorite,
     isFavorite,
+    removeRecent,
     clearRecent,
   };
 

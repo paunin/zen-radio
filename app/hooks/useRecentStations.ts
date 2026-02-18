@@ -17,10 +17,18 @@ export function useRecentStations() {
     });
   }, []);
 
+  const removeRecent = useCallback((stationId: string) => {
+    setRecentStations((prev) => {
+      const next = prev.filter((s) => s.id !== stationId);
+      setItem(STORAGE_KEYS.recent, next);
+      return next;
+    });
+  }, []);
+
   const clearRecent = useCallback(() => {
     setRecentStations([]);
     setItem(STORAGE_KEYS.recent, []);
   }, []);
 
-  return { recentStations, addRecent, clearRecent };
+  return { recentStations, addRecent, removeRecent, clearRecent };
 }

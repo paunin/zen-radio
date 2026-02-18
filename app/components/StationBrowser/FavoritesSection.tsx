@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useRadio } from "~/context/RadioContext";
 import { Icon } from "~/components/ui/Icon";
 import { StationRow } from "./StationRow";
+import { SwipeableRow } from "./SwipeableRow";
 
 export function FavoritesSection() {
   const { t } = useTranslation();
@@ -30,15 +31,22 @@ export function FavoritesSection() {
       {expanded && (
         <div className="flex flex-col gap-0.5">
           {state.favorites.map((station) => (
-            <StationRow
+            <SwipeableRow
               key={station.id}
-              station={station}
-              isCurrentStation={state.currentStation?.id === station.id}
-              isPlaying={state.isPlaying && state.currentStation?.id === station.id}
-              isFavorite={true}
-              onPlay={actions.play}
-              onToggleFavorite={actions.toggleFavorite}
-            />
+              onSwipeRight={() => {}}
+              onSwipeLeft={() => actions.toggleFavorite(station)}
+              rightIcon="star"
+              leftIcon="starOutline"
+            >
+              <StationRow
+                station={station}
+                isCurrentStation={state.currentStation?.id === station.id}
+                isPlaying={state.isPlaying && state.currentStation?.id === station.id}
+                isFavorite={true}
+                onPlay={actions.play}
+                onToggleFavorite={actions.toggleFavorite}
+              />
+            </SwipeableRow>
           ))}
         </div>
       )}

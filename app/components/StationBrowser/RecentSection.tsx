@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useRadio } from "~/context/RadioContext";
 import { StationRow } from "./StationRow";
+import { SwipeableRow } from "./SwipeableRow";
 
 const INITIAL_SHOW = 5;
 
@@ -34,15 +35,23 @@ export function RecentSection() {
 
       <div className="flex flex-col gap-0.5">
         {visibleStations.map((station) => (
-          <StationRow
+          <SwipeableRow
             key={station.id}
-            station={station}
-            isCurrentStation={state.currentStation?.id === station.id}
-            isPlaying={state.isPlaying && state.currentStation?.id === station.id}
-            isFavorite={actions.isFavorite(station.id)}
-            onPlay={actions.play}
-            onToggleFavorite={actions.toggleFavorite}
-          />
+            onSwipeRight={() => {
+              if (!actions.isFavorite(station.id)) actions.toggleFavorite(station);
+            }}
+            onSwipeLeft={() => actions.removeRecent(station.id)}
+            rightIcon="star"
+          >
+            <StationRow
+              station={station}
+              isCurrentStation={state.currentStation?.id === station.id}
+              isPlaying={state.isPlaying && state.currentStation?.id === station.id}
+              isFavorite={actions.isFavorite(station.id)}
+              onPlay={actions.play}
+              onToggleFavorite={actions.toggleFavorite}
+            />
+          </SwipeableRow>
         ))}
       </div>
 

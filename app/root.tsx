@@ -15,6 +15,9 @@ export const links: LinksFunction = () => [
   { rel: "icon", href: "/images/icon16.png", sizes: "16x16", type: "image/png" },
   { rel: "icon", href: "/images/icon32.png", sizes: "32x32", type: "image/png" },
   { rel: "apple-touch-icon", href: "/images/icon-192.png" },
+  { rel: "preconnect", href: "https://fonts.googleapis.com" },
+  { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+  { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap" },
 ];
 
 const DESCRIPTION =
