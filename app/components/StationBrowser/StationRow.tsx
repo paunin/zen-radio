@@ -13,6 +13,7 @@ interface StationRowProps {
   station: Station;
   isCurrentStation: boolean;
   isPlaying: boolean;
+  isBuffering?: boolean;
   isFavorite: boolean;
   showStats?: boolean;
   onPlay: (station: Station) => void;
@@ -24,6 +25,7 @@ export const StationRow = memo(function StationRow({
   station,
   isCurrentStation,
   isPlaying,
+  isBuffering,
   isFavorite,
   onPlay,
   onToggleFavorite,
@@ -69,9 +71,14 @@ export const StationRow = memo(function StationRow({
         }
       }}
     >
-      {/* Playing indicator or station icon */}
+      {/* Playing / buffering indicator or station icon */}
       <div className="w-5 flex-shrink-0 flex items-center justify-center">
-        {isCurrentStation && isPlaying ? (
+        {isCurrentStation && isBuffering ? (
+          <div
+            className="w-2 h-2 rounded-full bg-accent"
+            style={{ animation: "radioPulse 1s ease-in-out infinite" }}
+          />
+        ) : isCurrentStation && isPlaying ? (
           <PlayingIndicator />
         ) : (
           <Icon name="music" size={14} className="text-text-secondary opacity-40" />

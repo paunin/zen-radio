@@ -79,6 +79,7 @@ export function SearchResults({
               station={station}
               isCurrentStation={state.currentStation?.id === station.id}
               isPlaying={state.isPlaying && state.currentStation?.id === station.id}
+              isBuffering={state.isBuffering && state.currentStation?.id === station.id}
               isFavorite={actions.isFavorite(station.id)}
               onPlay={actions.play}
               onToggleFavorite={actions.toggleFavorite}

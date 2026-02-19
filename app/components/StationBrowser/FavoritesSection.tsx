@@ -32,6 +32,7 @@ export function FavoritesSection() {
               station={station}
               isCurrentStation={state.currentStation?.id === station.id}
               isPlaying={state.isPlaying && state.currentStation?.id === station.id}
+              isBuffering={state.isBuffering && state.currentStation?.id === station.id}
               isFavorite={true}
               onPlay={actions.play}
               onToggleFavorite={actions.toggleFavorite}
