@@ -14,7 +14,6 @@ function mapToStation(s: RadioBrowserStation): Station | null {
       .join(" · ")
       .substring(0, 80),
     streamUrl,
-    source: "Radio Browser",
     votes: s.votes || 0,
     clickcount: s.clickcount || 0,
     clicktrend: s.clicktrend || 0,
@@ -32,7 +31,7 @@ export async function searchStations(
 ): Promise<Station[]> {
   const params = new URLSearchParams({
     name: query,
-    limit: "15",
+    limit: "100",
     order: "votes",
     reverse: "true",
     hidebroken: "true",

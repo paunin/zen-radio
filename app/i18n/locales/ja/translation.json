@@ -38,5 +38,9 @@
   "suggestElectronic": "エレクトロニック",
   "suggestBlues": "ブルース",
   "suggestMeditation": "瞑想",
-  "suggestPop": "ポップ"
+  "suggestPop": "ポップ",
+  "suggestions": "おすすめ",
+  "swipeFav": "お気に入り",
+  "swipeUnfav": "解除",
+  "swipeDelete": "削除"
 }

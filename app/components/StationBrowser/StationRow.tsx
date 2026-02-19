@@ -121,7 +121,7 @@ export const StationRow = memo(function StationRow({
         `}
         aria-label={isFavorite ? t("removeFromFavorites") : t("addToFavorites")}
       >
-        <Icon name={isFavorite ? "star" : "starOutline"} size={32} />
+        <Icon name={isFavorite ? "star" : "starOutline"} size={26} />
       </button>
     </div>
   );

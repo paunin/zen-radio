@@ -3,6 +3,7 @@ import type { Station } from "~/types/station";
 import { useRadio } from "~/context/RadioContext";
 import { StationRow } from "./StationRow";
 import { StationStats } from "./StationStats";
+import { SwipeableRow } from "./SwipeableRow";
 
 interface SearchResultsProps {
   results: Station[];
@@ -65,24 +66,33 @@ export function SearchResults({
         {t("results")} ({results.length})
       </div>
       <div className="flex flex-col gap-0.5">
-        {results.map((station) => (
-          <StationRow
+        {results.map((station) => {
+          const isFav = actions.isFavorite(station.id);
+          return (
+          <SwipeableRow
             key={station.id}
-            station={station}
-            isCurrentStation={state.currentStation?.id === station.id}
-            isPlaying={state.isPlaying && state.currentStation?.id === station.id}
-            isFavorite={actions.isFavorite(station.id)}
-            onPlay={actions.play}
-            onToggleFavorite={actions.toggleFavorite}
+            onSwipeRight={() => actions.toggleFavorite(station)}
+            rightIcon={isFav ? "starOutline" : "star"}
+            rightLabel={isFav ? t("swipeUnfav") : t("swipeFav")}
           >
-            <StationStats
-              votes={station.votes}
-              clickcount={station.clickcount}
-              clicktrend={station.clicktrend}
-              bitrate={station.bitrate}
-            />
-          </StationRow>
-        ))}
+            <StationRow
+              station={station}
+              isCurrentStation={state.currentStation?.id === station.id}
+              isPlaying={state.isPlaying && state.currentStation?.id === station.id}
+              isFavorite={actions.isFavorite(station.id)}
+              onPlay={actions.play}
+              onToggleFavorite={actions.toggleFavorite}
+            >
+              <StationStats
+                votes={station.votes}
+                clickcount={station.clickcount}
+                clicktrend={station.clicktrend}
+                bitrate={station.bitrate}
+              />
+            </StationRow>
+          </SwipeableRow>
+          );
+        })}
       </div>
     </div>
   );

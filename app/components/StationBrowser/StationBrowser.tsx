@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useRadio } from "~/context/RadioContext";
 import { useStationSearch } from "~/hooks/useStationSearch";
+import { getItem, setItem, STORAGE_KEYS } from "~/lib/storage";
+import { Icon } from "~/components/ui/Icon";
 import { SearchBar } from "./SearchBar";
 import { SearchResults } from "./SearchResults";
 import { FavoritesSection } from "./FavoritesSection";
@@ -30,9 +32,11 @@ function pickRandom(exclude: number) {
 function SuggestionPills({
   onSuggestion,
   enablePulse = false,
+  compact = false,
 }: {
   onSuggestion: (term: string) => void;
   enablePulse?: boolean;
+  compact?: boolean;
 }) {
   const { t } = useTranslation();
   const [pulsingIdx, setPulsingIdx] = useState(-1);
@@ -57,13 +61,13 @@ function SuggestionPills({
   }, [enablePulse]);
 
   return (
-    <div className="flex flex-wrap justify-center gap-2 max-w-xs mx-auto">
+    <div className={`flex flex-wrap justify-center ${compact ? "gap-1.5" : "gap-2 max-w-xs"} mx-auto`}>
       {SUGGESTIONS.map(({ searchTerm, labelKey }, i) => (
         <button
           key={searchTerm}
           onMouseDown={(e) => e.preventDefault()}
           onClick={() => onSuggestion(searchTerm)}
-          className={`px-3 py-1.5 text-xs rounded-full
+          className={`${compact ? "px-2.5 py-1 text-[0.65rem]" : "px-3 py-1.5 text-xs"} rounded-full
             border text-text-secondary/70
             hover:border-accent/40 hover:text-accent/90
             active:scale-95
@@ -127,12 +131,17 @@ function EmptyState({ onSuggestion }: { onSuggestion: (term: string) => void }) 
 }
 
 export function StationBrowser() {
+  const { t } = useTranslation();
   const { searchInputRef, state } = useRadio();
   const search = useStationSearch();
-  const [searchFocused, setSearchFocused] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [suggestionsExpanded, setSuggestionsExpanded] = useState(() =>
+    getItem<boolean>(STORAGE_KEYS.suggestionsExpanded, true)
+  );
   const isSearchActive = search.query.length > 0;
-  const showSuggestions = searchFocused && !isSearchActive;
-  const hasContent = state.favorites.length > 0 || state.recentStations.length > 0;
+  const showSuggestions = searchOpen && !isSearchActive;
+  const hasContent = state.favorites.length > 0;
+  const hasRecent = state.recentStations.length > 0;
 
   const handleSuggestion = useCallback(
     (term: string) => {
@@ -142,15 +151,21 @@ export function StationBrowser() {
     [search, searchInputRef]
   );
 
+  const handleSearchClose = useCallback(() => {
+    search.clearSearch();
+    setSearchOpen(false);
+  }, [search]);
+
   return (
     <div className="flex flex-col gap-2 h-full min-h-0">
       <div className="px-3 pt-1">
         <SearchBar
           ref={searchInputRef}
           query={search.query}
+          isOpen={searchOpen}
           onChange={search.setQuery}
-          onClear={search.clearSearch}
-          onFocusChange={setSearchFocused}
+          onOpen={() => setSearchOpen(true)}
+          onClose={handleSearchClose}
         />
       </div>
 
@@ -163,13 +178,42 @@ export function StationBrowser() {
             hasSearched={search.hasSearched}
           />
         ) : showSuggestions ? (
-          <div className="px-6 pt-4">
-            <SuggestionPills onSuggestion={handleSuggestion} />
+          <div className="flex flex-col bg-panel/80 shadow-[0_-2px_16px_rgba(0,0,0,0.3)] rounded-b-lg">
+            {hasRecent ? (
+              <>
+                <button
+                  onClick={() => {
+                    const next = !suggestionsExpanded;
+                    setSuggestionsExpanded(next);
+                    setItem(STORAGE_KEYS.suggestionsExpanded, next);
+                  }}
+                  className="flex items-center gap-1.5 px-3 py-2 cursor-pointer group"
+                >
+                  <span className="text-text-label uppercase text-[0.65rem] tracking-[0.08em] group-hover:text-text-secondary transition-colors">
+                    {t("suggestions")}
+                  </span>
+                  <Icon
+                    name={suggestionsExpanded ? "chevronUp" : "chevronDown"}
+                    size={12}
+                    className="text-text-label"
+                  />
+                </button>
+                {suggestionsExpanded && (
+                  <div className="px-4 pb-3">
+                    <SuggestionPills onSuggestion={handleSuggestion} compact />
+                  </div>
+                )}
+                <RecentSection />
+              </>
+            ) : (
+              <div className="px-4 py-3">
+                <SuggestionPills onSuggestion={handleSuggestion} compact />
+              </div>
+            )}
           </div>
         ) : hasContent ? (
           <div className="flex flex-col gap-2">
             <FavoritesSection />
-            <RecentSection />
           </div>
         ) : (
           <EmptyState onSuggestion={handleSuggestion} />

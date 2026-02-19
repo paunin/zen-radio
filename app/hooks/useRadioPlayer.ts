@@ -30,7 +30,9 @@ export interface RadioPlayerActions {
 export function useRadioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const [currentStation, setCurrentStation] = useState<Station | null>(null);
+  const [currentStation, setCurrentStation] = useState<Station | null>(() =>
+    getItem<Station | null>(STORAGE_KEYS.lastStation, null)
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isBuffering, setIsBuffering] = useState(false);
@@ -98,6 +100,19 @@ export function useRadioPlayer() {
       audio.pause();
       audio.src = "";
     };
+  }, []);
+
+  // Restore last station on mount (loaded but not playing)
+  useEffect(() => {
+    const saved = getItem<Station | null>(STORAGE_KEYS.lastStation, null);
+    if (saved) {
+      stationRef.current = saved;
+      streamUrlRef.current = saved.streamUrl;
+      isPausedRef.current = true;
+      setIsPaused(true);
+      setMediaSessionMetadata(saved);
+      setMediaSessionPlaybackState("paused");
+    }
   }, []);
 
   useEffect(() => {

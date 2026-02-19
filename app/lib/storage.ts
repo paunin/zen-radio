@@ -3,6 +3,7 @@ export const STORAGE_KEYS = {
   lastStation: "radioLastStation",
   recent: "radioRecent",
   favorites: "radioFavorites",
+  suggestionsExpanded: "radioSuggestionsExpanded",
 } as const;
 
 export function getItem<T>(key: string, fallback: T): T {

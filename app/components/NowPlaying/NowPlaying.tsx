@@ -64,7 +64,6 @@ export function NowPlaying() {
               {formatBitrate(currentStation.bitrate)}
             </Badge>
           ) : null}
-          {currentStation?.source && <Badge>{currentStation.source}</Badge>}
         </div>
       </div>
     </div>

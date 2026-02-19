@@ -8,6 +8,8 @@ interface SwipeableRowProps {
   onSwipeRight?: () => void;
   leftIcon?: string;
   rightIcon?: string;
+  leftLabel?: string;
+  rightLabel?: string;
   leftColor?: string;
   rightColor?: string;
   children: ReactNode;
@@ -18,6 +20,8 @@ export function SwipeableRow({
   onSwipeRight,
   leftIcon = "trash",
   rightIcon = "star",
+  leftLabel,
+  rightLabel,
   leftColor = "rgba(180, 40, 40, 0.85)",
   rightColor = "rgba(160, 130, 20, 0.75)",
   children,
@@ -27,6 +31,8 @@ export function SwipeableRow({
   const rightBgRef = useRef<HTMLDivElement>(null);
   const leftIconRef = useRef<SVGSVGElement>(null);
   const rightIconRef = useRef<SVGSVGElement>(null);
+  const leftLabelRef = useRef<HTMLSpanElement>(null);
+  const rightLabelRef = useRef<HTMLSpanElement>(null);
   const startX = useRef(0);
   const startY = useRef(0);
   const currentX = useRef(0);
@@ -40,13 +46,19 @@ export function SwipeableRow({
     if (leftBgRef.current) {
       leftBgRef.current.style.visibility = dx < 0 ? "visible" : "hidden";
     }
+    const rightProgress = Math.min(1, Math.max(0, dx / THRESHOLD));
+    const leftProgress = Math.min(1, Math.max(0, -dx / THRESHOLD));
     if (rightIconRef.current) {
-      const progress = Math.min(1, Math.max(0, dx / THRESHOLD));
-      rightIconRef.current.style.opacity = `${0.2 + progress * 0.8}`;
+      rightIconRef.current.style.opacity = `${0.2 + rightProgress * 0.8}`;
+    }
+    if (rightLabelRef.current) {
+      rightLabelRef.current.style.opacity = `${0.2 + rightProgress * 0.8}`;
     }
     if (leftIconRef.current) {
-      const progress = Math.min(1, Math.max(0, -dx / THRESHOLD));
-      leftIconRef.current.style.opacity = `${0.2 + progress * 0.8}`;
+      leftIconRef.current.style.opacity = `${0.2 + leftProgress * 0.8}`;
+    }
+    if (leftLabelRef.current) {
+      leftLabelRef.current.style.opacity = `${0.2 + leftProgress * 0.8}`;
     }
   }, []);
 
@@ -129,10 +141,15 @@ export function SwipeableRow({
       {onSwipeRight && (
         <div
           ref={rightBgRef}
-          className="absolute inset-0 flex items-center pl-8"
+          className="absolute inset-0 flex items-center gap-2 pl-4"
           style={{ background: rightColor, visibility: "hidden" }}
         >
           <Icon ref={rightIconRef} name={rightIcon} size={22} className="text-white" style={{ opacity: 0.2 }} />
+          {rightLabel && (
+            <span ref={rightLabelRef} className="text-white text-xs font-medium" style={{ opacity: 0.2 }}>
+              {rightLabel}
+            </span>
+          )}
         </div>
       )}
 
@@ -140,9 +157,14 @@ export function SwipeableRow({
       {onSwipeLeft && (
         <div
           ref={leftBgRef}
-          className="absolute inset-0 flex items-center justify-end pr-8"
+          className="absolute inset-0 flex items-center justify-end gap-2 pr-4"
           style={{ background: leftColor, visibility: "hidden" }}
         >
+          {leftLabel && (
+            <span ref={leftLabelRef} className="text-white text-xs font-medium" style={{ opacity: 0.2 }}>
+              {leftLabel}
+            </span>
+          )}
           <Icon ref={leftIconRef} name={leftIcon} size={22} className="text-white" style={{ opacity: 0.2 }} />
         </div>
       )}

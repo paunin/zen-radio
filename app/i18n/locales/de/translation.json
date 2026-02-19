@@ -38,5 +38,9 @@
   "suggestElectronic": "Elektronisch",
   "suggestBlues": "Blues",
   "suggestMeditation": "Meditation",
-  "suggestPop": "Pop"
+  "suggestPop": "Pop",
+  "suggestions": "Vorschläge",
+  "swipeFav": "Favorit",
+  "swipeUnfav": "Entfernen",
+  "swipeDelete": "Löschen"
 }

@@ -38,5 +38,9 @@
   "suggestElectronic": "电子",
   "suggestBlues": "蓝调",
   "suggestMeditation": "冥想",
-  "suggestPop": "流行"
+  "suggestPop": "流行",
+  "suggestions": "推荐",
+  "swipeFav": "收藏",
+  "swipeUnfav": "取消",
+  "swipeDelete": "删除"
 }

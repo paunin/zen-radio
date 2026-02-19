@@ -1,22 +1,14 @@
-import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useRadio } from "~/context/RadioContext";
 import { StationRow } from "./StationRow";
+import { StationStats } from "./StationStats";
 import { SwipeableRow } from "./SwipeableRow";
-
-const INITIAL_SHOW = 5;
 
 export function RecentSection() {
   const { t } = useTranslation();
   const { state, actions } = useRadio();
-  const [showAll, setShowAll] = useState(false);
 
   if (state.recentStations.length === 0) return null;
-
-  const visibleStations = showAll
-    ? state.recentStations
-    : state.recentStations.slice(0, INITIAL_SHOW);
-  const hasMore = state.recentStations.length > INITIAL_SHOW;
 
   return (
     <div>
@@ -34,14 +26,16 @@ export function RecentSection() {
       </div>
 
       <div className="flex flex-col gap-0.5">
-        {visibleStations.map((station) => (
+        {state.recentStations.map((station) => {
+          const isFav = actions.isFavorite(station.id);
+          return (
           <SwipeableRow
             key={station.id}
-            onSwipeRight={() => {
-              if (!actions.isFavorite(station.id)) actions.toggleFavorite(station);
-            }}
+            onSwipeRight={() => actions.toggleFavorite(station)}
             onSwipeLeft={() => actions.removeRecent(station.id)}
-            rightIcon="star"
+            rightIcon={isFav ? "starOutline" : "star"}
+            rightLabel={isFav ? t("swipeUnfav") : t("swipeFav")}
+            leftLabel={t("swipeDelete")}
           >
             <StationRow
               station={station}
@@ -50,22 +44,18 @@ export function RecentSection() {
               isFavorite={actions.isFavorite(station.id)}
               onPlay={actions.play}
               onToggleFavorite={actions.toggleFavorite}
-            />
+            >
+              <StationStats
+                votes={station.votes}
+                clickcount={station.clickcount}
+                clicktrend={station.clicktrend}
+                bitrate={station.bitrate}
+              />
+            </StationRow>
           </SwipeableRow>
-        ))}
+          );
+        })}
       </div>
-
-      {hasMore && (
-        <button
-          onClick={() => setShowAll(!showAll)}
-          className="w-full px-3 py-1.5 text-accent/70 hover:text-accent text-xs
-            transition-colors cursor-pointer text-center"
-        >
-          {showAll
-            ? t("showLess")
-            : `${t("showMore")} (${state.recentStations.length - INITIAL_SHOW})`}
-        </button>
-      )}
     </div>
   );
 }
