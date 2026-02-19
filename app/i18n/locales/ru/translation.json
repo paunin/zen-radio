@@ -27,5 +27,16 @@
   "pwaTitle": "На экран «Домой»",
   "pwaDescription": "Установите Zen Radio для полноэкранного режима и работы без интернета.",
   "pwaShareStep": "Нажмите кнопку «Поделиться» в меню внизу",
-  "pwaAddStep": "Нажмите «На экран «Домой»»"
+  "pwaAddStep": "Нажмите «На экран «Домой»»",
+  "suggestJazz": "Джаз",
+  "suggestChill": "Чилл",
+  "suggestClassical": "Классика",
+  "suggestAmbient": "Эмбиент",
+  "suggestLofi": "Ло-Фай",
+  "suggestNature": "Природа",
+  "suggestRock": "Рок",
+  "suggestElectronic": "Электроника",
+  "suggestBlues": "Блюз",
+  "suggestMeditation": "Медитация",
+  "suggestPop": "Поп"
 }

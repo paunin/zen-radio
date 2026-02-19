@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useRadio } from "~/context/RadioContext";
 import { useStationSearch } from "~/hooks/useStationSearch";
@@ -7,7 +7,77 @@ import { SearchResults } from "./SearchResults";
 import { FavoritesSection } from "./FavoritesSection";
 import { RecentSection } from "./RecentSection";
 
-function EmptyState() {
+const SUGGESTIONS = [
+  { searchTerm: "jazz", labelKey: "suggestJazz" },
+  { searchTerm: "chill", labelKey: "suggestChill" },
+  { searchTerm: "classical", labelKey: "suggestClassical" },
+  { searchTerm: "ambient", labelKey: "suggestAmbient" },
+  { searchTerm: "lofi", labelKey: "suggestLofi" },
+  { searchTerm: "nature", labelKey: "suggestNature" },
+  { searchTerm: "rock", labelKey: "suggestRock" },
+  { searchTerm: "electronic", labelKey: "suggestElectronic" },
+  { searchTerm: "blues", labelKey: "suggestBlues" },
+  { searchTerm: "meditation", labelKey: "suggestMeditation" },
+  { searchTerm: "pop", labelKey: "suggestPop" },
+] as const;
+
+function pickRandom(exclude: number) {
+  let idx: number;
+  do { idx = Math.floor(Math.random() * SUGGESTIONS.length); } while (idx === exclude);
+  return idx;
+}
+
+function SuggestionPills({
+  onSuggestion,
+  enablePulse = false,
+}: {
+  onSuggestion: (term: string) => void;
+  enablePulse?: boolean;
+}) {
+  const { t } = useTranslation();
+  const [pulsingIdx, setPulsingIdx] = useState(-1);
+  const lastIdx = useRef(-1);
+
+  useEffect(() => {
+    if (!enablePulse) return;
+    const doPulse = () => {
+      const idx = pickRandom(lastIdx.current);
+      lastIdx.current = idx;
+      setPulsingIdx(idx);
+      setTimeout(() => setPulsingIdx(-1), 4200);
+    };
+
+    const firstTimer = setTimeout(doPulse, 10_000);
+    const interval = setInterval(doPulse, 15_000);
+
+    return () => {
+      clearTimeout(firstTimer);
+      clearInterval(interval);
+    };
+  }, [enablePulse]);
+
+  return (
+    <div className="flex flex-wrap justify-center gap-2 max-w-xs mx-auto">
+      {SUGGESTIONS.map(({ searchTerm, labelKey }, i) => (
+        <button
+          key={searchTerm}
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => onSuggestion(searchTerm)}
+          className={`px-3 py-1.5 text-xs rounded-full
+            border text-text-secondary/70
+            hover:border-accent/40 hover:text-accent/90
+            active:scale-95
+            transition-all duration-300 cursor-pointer
+            ${i === pulsingIdx ? "animate-[suggest-nudge_2s_ease-in-out_2] text-accent/60" : ""} border-border/60`}
+        >
+          {t(labelKey)}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function EmptyState({ onSuggestion }: { onSuggestion: (term: string) => void }) {
   const { t } = useTranslation();
 
   return (
@@ -29,6 +99,8 @@ function EmptyState() {
             {t("welcomeDescription")}
           </p>
         </div>
+
+        <SuggestionPills onSuggestion={onSuggestion} enablePulse />
       </div>
       <div className="flex-1" />
       <p className="text-xs text-text-secondary/30 pb-4">
@@ -57,16 +129,18 @@ function EmptyState() {
 export function StationBrowser() {
   const { searchInputRef, state } = useRadio();
   const search = useStationSearch();
+  const [searchFocused, setSearchFocused] = useState(false);
   const isSearchActive = search.query.length > 0;
+  const showSuggestions = searchFocused && !isSearchActive;
   const hasContent = state.favorites.length > 0 || state.recentStations.length > 0;
-  const prevStationId = useRef(state.currentStation?.id);
 
-  useEffect(() => {
-    if (state.currentStation?.id && state.currentStation.id !== prevStationId.current && isSearchActive) {
-      search.clearSearch();
-    }
-    prevStationId.current = state.currentStation?.id;
-  }, [state.currentStation?.id, isSearchActive, search]);
+  const handleSuggestion = useCallback(
+    (term: string) => {
+      search.setQuery(term);
+      searchInputRef.current?.focus();
+    },
+    [search, searchInputRef]
+  );
 
   return (
     <div className="flex flex-col gap-2 h-full min-h-0">
@@ -76,6 +150,7 @@ export function StationBrowser() {
           query={search.query}
           onChange={search.setQuery}
           onClear={search.clearSearch}
+          onFocusChange={setSearchFocused}
         />
       </div>
 
@@ -87,13 +162,17 @@ export function StationBrowser() {
             error={search.error}
             hasSearched={search.hasSearched}
           />
+        ) : showSuggestions ? (
+          <div className="px-6 pt-4">
+            <SuggestionPills onSuggestion={handleSuggestion} />
+          </div>
         ) : hasContent ? (
           <div className="flex flex-col gap-2">
             <FavoritesSection />
             <RecentSection />
           </div>
         ) : (
-          <EmptyState />
+          <EmptyState onSuggestion={handleSuggestion} />
         )}
       </div>
     </div>

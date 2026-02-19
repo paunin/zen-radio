@@ -27,5 +27,16 @@
   "pwaTitle": "Add to Home Screen",
   "pwaDescription": "Install Zen Radio for a fullscreen, app-like experience with offline support.",
   "pwaShareStep": "Tap the 'Share' button in the menu bar below",
-  "pwaAddStep": "Tap 'Add to Home Screen'"
+  "pwaAddStep": "Tap 'Add to Home Screen'",
+  "suggestJazz": "Jazz",
+  "suggestChill": "Chill",
+  "suggestClassical": "Classical",
+  "suggestAmbient": "Ambient",
+  "suggestLofi": "Lo-Fi",
+  "suggestNature": "Nature",
+  "suggestRock": "Rock",
+  "suggestElectronic": "Electronic",
+  "suggestBlues": "Blues",
+  "suggestMeditation": "Meditation",
+  "suggestPop": "Pop"
 }

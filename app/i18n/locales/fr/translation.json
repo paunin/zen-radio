@@ -27,5 +27,16 @@
   "pwaTitle": "Ajouter à l'écran d'accueil",
   "pwaDescription": "Installez Zen Radio pour un mode plein écran et une utilisation hors ligne.",
   "pwaShareStep": "Appuyez sur le bouton « Partager » dans la barre de menu",
-  "pwaAddStep": "Appuyez sur « Sur l'écran d'accueil »"
+  "pwaAddStep": "Appuyez sur « Sur l'écran d'accueil »",
+  "suggestJazz": "Jazz",
+  "suggestChill": "Chill",
+  "suggestClassical": "Classique",
+  "suggestAmbient": "Ambiant",
+  "suggestLofi": "Lo-Fi",
+  "suggestNature": "Nature",
+  "suggestRock": "Rock",
+  "suggestElectronic": "Électro",
+  "suggestBlues": "Blues",
+  "suggestMeditation": "Méditation",
+  "suggestPop": "Pop"
 }

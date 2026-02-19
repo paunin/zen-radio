@@ -27,5 +27,16 @@
   "pwaTitle": "添加到主屏幕",
   "pwaDescription": "安装 Zen Radio，享受全屏和离线体验。",
   "pwaShareStep": "点击下方菜单栏中的'分享'按钮",
-  "pwaAddStep": "点击'添加到主屏幕'"
+  "pwaAddStep": "点击'添加到主屏幕'",
+  "suggestJazz": "爵士",
+  "suggestChill": "放松",
+  "suggestClassical": "古典",
+  "suggestAmbient": "氛围",
+  "suggestLofi": "低保真",
+  "suggestNature": "自然",
+  "suggestRock": "摇滚",
+  "suggestElectronic": "电子",
+  "suggestBlues": "蓝调",
+  "suggestMeditation": "冥想",
+  "suggestPop": "流行"
 }

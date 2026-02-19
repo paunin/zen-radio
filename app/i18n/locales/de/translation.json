@@ -27,5 +27,16 @@
   "pwaTitle": "Zum Home-Bildschirm",
   "pwaDescription": "Installiere Zen Radio für ein Vollbild-Erlebnis mit Offline-Unterstützung.",
   "pwaShareStep": "Tippe auf 'Teilen' in der Menüleiste unten",
-  "pwaAddStep": "Tippe auf 'Zum Home-Bildschirm'"
+  "pwaAddStep": "Tippe auf 'Zum Home-Bildschirm'",
+  "suggestJazz": "Jazz",
+  "suggestChill": "Chill",
+  "suggestClassical": "Klassik",
+  "suggestAmbient": "Ambient",
+  "suggestLofi": "Lo-Fi",
+  "suggestNature": "Natur",
+  "suggestRock": "Rock",
+  "suggestElectronic": "Elektronisch",
+  "suggestBlues": "Blues",
+  "suggestMeditation": "Meditation",
+  "suggestPop": "Pop"
 }

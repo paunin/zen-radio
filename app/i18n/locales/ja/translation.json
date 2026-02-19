@@ -27,5 +27,16 @@
   "pwaTitle": "ホーム画面に追加",
   "pwaDescription": "Zen Radioをインストールして、フルスクリーンとオフラインで使いましょう。",
   "pwaShareStep": "下のメニューバーの「共有」ボタンをタップ",
-  "pwaAddStep": "「ホーム画面に追加」をタップ"
+  "pwaAddStep": "「ホーム画面に追加」をタップ",
+  "suggestJazz": "ジャズ",
+  "suggestChill": "チル",
+  "suggestClassical": "クラシック",
+  "suggestAmbient": "アンビエント",
+  "suggestLofi": "ローファイ",
+  "suggestNature": "自然",
+  "suggestRock": "ロック",
+  "suggestElectronic": "エレクトロニック",
+  "suggestBlues": "ブルース",
+  "suggestMeditation": "瞑想",
+  "suggestPop": "ポップ"
 }

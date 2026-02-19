@@ -27,5 +27,16 @@
   "pwaTitle": "Añadir a pantalla de inicio",
   "pwaDescription": "Instala Zen Radio para una experiencia a pantalla completa y sin conexión.",
   "pwaShareStep": "Pulsa el botón 'Compartir' en la barra de menú",
-  "pwaAddStep": "Pulsa 'Añadir a pantalla de inicio'"
+  "pwaAddStep": "Pulsa 'Añadir a pantalla de inicio'",
+  "suggestJazz": "Jazz",
+  "suggestChill": "Chill",
+  "suggestClassical": "Clásica",
+  "suggestAmbient": "Ambient",
+  "suggestLofi": "Lo-Fi",
+  "suggestNature": "Naturaleza",
+  "suggestRock": "Rock",
+  "suggestElectronic": "Electrónica",
+  "suggestBlues": "Blues",
+  "suggestMeditation": "Meditación",
+  "suggestPop": "Pop"
 }

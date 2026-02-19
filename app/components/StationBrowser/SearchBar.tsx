@@ -6,10 +6,11 @@ interface SearchBarProps {
   query: string;
   onChange: (query: string) => void;
   onClear: () => void;
+  onFocusChange?: (focused: boolean) => void;
 }
 
 export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
-  function SearchBar({ query, onChange, onClear }, ref) {
+  function SearchBar({ query, onChange, onClear, onFocusChange }, ref) {
     const { t } = useTranslation();
 
     return (
@@ -24,6 +25,8 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           type="text"
           value={query}
           onChange={(e) => onChange(e.target.value)}
+          onFocus={() => onFocusChange?.(true)}
+          onBlur={() => onFocusChange?.(false)}
           placeholder={t("searchPlaceholder")}
           className="w-full pl-9 pr-8 py-2.5 rounded-lg bg-white/5 border border-border
             text-base text-text-primary placeholder:text-text-secondary/60
