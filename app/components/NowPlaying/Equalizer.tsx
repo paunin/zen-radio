@@ -8,11 +8,11 @@ export const Equalizer = memo(function Equalizer({ isPlaying }: EqualizerProps) 
   const bars = [0, 0.2, 0.4, 0.1, 0.3];
 
   return (
-    <div className="flex items-end gap-[3px] h-5" aria-hidden="true">
+    <div className="flex items-end gap-[2px] h-3.5" aria-hidden="true">
       {bars.map((delay, i) => (
         <div
           key={i}
-          className="w-[3px] rounded-full bg-accent origin-bottom"
+          className="w-[2px] rounded-full bg-accent origin-bottom"
           style={{
             height: "100%",
             animation: isPlaying
