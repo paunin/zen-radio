@@ -87,16 +87,44 @@ export function useRadioPlayer() {
       }
     };
 
+    const onStalled = () => {
+      if (reconnectingRef.current) return;
+      if (!isPlayingRef.current) return;
+      if (audio.paused) {
+        setIsPaused(true);
+        setIsPlaying(false);
+        setIsBuffering(false);
+        setMediaSessionPlaybackState("paused");
+      }
+    };
+
+    const onVisibilityChange = () => {
+      if (document.hidden) return;
+      if (!isPlayingRef.current) return;
+      if (reconnectingRef.current) return;
+
+      if (audio.paused) {
+        setIsPaused(true);
+        setIsPlaying(false);
+        setIsBuffering(false);
+        setMediaSessionPlaybackState("paused");
+      }
+    };
+
     audio.addEventListener("playing", onPlaying);
     audio.addEventListener("waiting", onWaiting);
     audio.addEventListener("error", onError);
     audio.addEventListener("pause", onPause);
+    audio.addEventListener("stalled", onStalled);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
       audio.removeEventListener("playing", onPlaying);
       audio.removeEventListener("waiting", onWaiting);
       audio.removeEventListener("error", onError);
       audio.removeEventListener("pause", onPause);
+      audio.removeEventListener("stalled", onStalled);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       audio.pause();
       audio.src = "";
     };
