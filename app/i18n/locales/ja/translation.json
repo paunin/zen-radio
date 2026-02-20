@@ -42,5 +42,7 @@
   "suggestions": "おすすめ",
   "swipeFav": "お気に入り",
   "swipeUnfav": "解除",
-  "swipeDelete": "削除"
+  "swipeDelete": "削除",
+  "reorder": "並べ替え",
+  "save": "保存"
 }

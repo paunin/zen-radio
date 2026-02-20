@@ -16,6 +16,7 @@ interface StationRowProps {
   isBuffering?: boolean;
   isFavorite: boolean;
   showStats?: boolean;
+  orderMode?: boolean;
   onPlay: (station: Station) => void;
   onToggleFavorite: (station: Station) => void;
   children?: React.ReactNode;
@@ -27,6 +28,7 @@ export const StationRow = memo(function StationRow({
   isPlaying,
   isBuffering,
   isFavorite,
+  orderMode,
   onPlay,
   onToggleFavorite,
   children,
@@ -57,35 +59,40 @@ export const StationRow = memo(function StationRow({
   return (
     <div
       className={`
-        flex items-center gap-3 px-3 py-2 cursor-pointer
+        flex items-center gap-3 px-3 py-2
         transition-colors duration-150 group min-h-[44px]
-        ${isCurrentStation ? "bg-playing text-accent" : "hover:bg-hover text-text-primary"}
+        ${orderMode ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"}
+        ${isCurrentStation ? "bg-playing text-accent" : orderMode ? "text-text-primary" : "hover:bg-hover text-text-primary"}
       `}
-      onClick={() => onPlay(station)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
+      onClick={orderMode ? undefined : () => onPlay(station)}
+      role={orderMode ? undefined : "button"}
+      tabIndex={orderMode ? -1 : 0}
+      onKeyDown={orderMode ? undefined : (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           onPlay(station);
         }
       }}
     >
-      {/* Playing / buffering indicator or station icon */}
-      <div className="w-5 flex-shrink-0 flex items-center justify-center">
-        {isCurrentStation && isBuffering ? (
-          <div
-            className="w-2 h-2 rounded-full bg-accent"
-            style={{ animation: "radioPulse 1s ease-in-out infinite" }}
-          />
-        ) : isCurrentStation && isPlaying ? (
-          <PlayingIndicator />
-        ) : (
-          <Icon name="music" size={14} className="text-text-secondary opacity-40" />
-        )}
-      </div>
+      {orderMode ? (
+        <div className="w-5 flex-shrink-0 flex items-center justify-center">
+          <Icon name="dragHandle" size={16} className="text-text-secondary opacity-60" />
+        </div>
+      ) : (
+        <div className="w-5 flex-shrink-0 flex items-center justify-center">
+          {isCurrentStation && isBuffering ? (
+            <div
+              className="w-2 h-2 rounded-full bg-accent"
+              style={{ animation: "radioPulse 1s ease-in-out infinite" }}
+            />
+          ) : isCurrentStation && isPlaying ? (
+            <PlayingIndicator />
+          ) : (
+            <Icon name="music" size={14} className="text-text-secondary opacity-40" />
+          )}
+        </div>
+      )}
 
-      {/* Station info */}
       <div className="flex-1 min-w-0">
         <div
           className={`text-sm font-medium truncate ${isCurrentStation ? "text-accent" : ""}`}
@@ -100,36 +107,38 @@ export const StationRow = memo(function StationRow({
         {children}
       </div>
 
-      {/* Share button */}
-      <button
-        onClick={handleShare}
-        className="flex-shrink-0 p-1 rounded transition-colors duration-150 cursor-pointer text-text-secondary/30 hover:text-accent"
-        aria-label={t("share")}
-      >
-        {copied ? (
-          <span className="text-[0.6rem] text-accent leading-none">{t("linkCopied")}</span>
-        ) : (
-          <Icon name="share" size={18} />
-        )}
-      </button>
+      {!orderMode && (
+        <>
+          <button
+            onClick={handleShare}
+            className="flex-shrink-0 p-1 rounded transition-colors duration-150 cursor-pointer text-text-secondary/30 hover:text-accent"
+            aria-label={t("share")}
+          >
+            {copied ? (
+              <span className="text-[0.6rem] text-accent leading-none">{t("linkCopied")}</span>
+            ) : (
+              <Icon name="share" size={18} />
+            )}
+          </button>
 
-      {/* Favorite button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onToggleFavorite(station);
-        }}
-        className={`
-          flex-shrink-0 p-1 rounded transition-colors duration-150 cursor-pointer
-          ${isFavorite
-            ? "text-yellow-400 hover:text-yellow-300"
-            : "text-text-secondary/30 hover:text-yellow-400"
-          }
-        `}
-        aria-label={isFavorite ? t("removeFromFavorites") : t("addToFavorites")}
-      >
-        <Icon name={isFavorite ? "star" : "starOutline"} size={26} />
-      </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleFavorite(station);
+            }}
+            className={`
+              flex-shrink-0 p-1 rounded transition-colors duration-150 cursor-pointer
+              ${isFavorite
+                ? "text-yellow-400 hover:text-yellow-300"
+                : "text-text-secondary/30 hover:text-yellow-400"
+              }
+            `}
+            aria-label={isFavorite ? t("removeFromFavorites") : t("addToFavorites")}
+          >
+            <Icon name={isFavorite ? "star" : "starOutline"} size={26} />
+          </button>
+        </>
+      )}
     </div>
   );
 });

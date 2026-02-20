@@ -42,5 +42,7 @@
   "suggestions": "推荐",
   "swipeFav": "收藏",
   "swipeUnfav": "取消",
-  "swipeDelete": "删除"
+  "swipeDelete": "删除",
+  "reorder": "排序",
+  "save": "保存"
 }

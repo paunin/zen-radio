@@ -18,10 +18,15 @@ export function useFavorites() {
     });
   }, []);
 
+  const reorderFavorites = useCallback((reordered: Station[]) => {
+    setFavorites(reordered);
+    setItem(STORAGE_KEYS.favorites, reordered);
+  }, []);
+
   const isFavorite = useCallback(
     (stationId: string) => favorites.some((s) => s.id === stationId),
     [favorites]
   );
 
-  return { favorites, toggleFavorite, isFavorite };
+  return { favorites, toggleFavorite, reorderFavorites, isFavorite };
 }

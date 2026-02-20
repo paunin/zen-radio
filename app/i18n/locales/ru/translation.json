@@ -42,5 +42,7 @@
   "suggestions": "Рекомендации",
   "swipeFav": "В избранное",
   "swipeUnfav": "Из избранного",
-  "swipeDelete": "Удалить"
+  "swipeDelete": "Удалить",
+  "reorder": "Порядок",
+  "save": "Сохранить"
 }

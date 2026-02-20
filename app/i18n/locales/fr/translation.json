@@ -42,5 +42,7 @@
   "suggestions": "Suggestions",
   "swipeFav": "Favori",
   "swipeUnfav": "Retirer",
-  "swipeDelete": "Supprimer"
+  "swipeDelete": "Supprimer",
+  "reorder": "Réorganiser",
+  "save": "Enregistrer"
 }
