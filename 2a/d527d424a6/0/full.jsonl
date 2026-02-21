@@ -53,3 +53,4 @@
 {"role":"assistant","message":{"content":[{"type":"text","text":"GPG signing needs full permissions. Let me retry outside the sandbox."}]}}
 {"role":"assistant","message":{"content":[{"type":"text","text":"Committed and pushed. 19 files changed, 702 insertions -- `9c43328` on `main`."}]}}
 {"role":"user","message":{"content":[{"type":"text","text":"<user_query>\nupdate readme with details after we developed stuff\n</user_query>"}]}}
+{"role":"assistant","message":{"content":[{"type":"text","text":"Done. Updated the README with the new features -- settings panel, 10 languages, 8 color themes, drag-and-drop favorites, and media key track cycling. Committed and pushed as `1e4c967`."}]}}
