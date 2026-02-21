@@ -1,0 +1,33 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "2ad527d424a6",
+  "session_id": "unknown",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-21T06:52:50.529777Z",
+  "branch": "main",
+  "checkpoints_count": 0,
+  "files_touched": [
+    "README.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "383c66001ce7",
+  "checkpoint_transcript_start": 52,
+  "transcript_lines_at_start": 52,
+  "token_usage": {
+    "input_tokens": 0,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 0,
+    "api_call_count": 0
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-21T06:52:50.457064Z",
+    "agent_lines": 5,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 5,
+    "agent_percentage": 100
+  },
+  "transcript_path": ".cursor/projects/Users-paunin-Sites-zen-radio/agent-transcripts/77a5ffa2-4c92-447d-bcd7-b68d0ecac52f/77a5ffa2-4c92-447d-bcd7-b68d0ecac52f.jsonl"
+}
