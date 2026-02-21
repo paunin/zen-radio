@@ -19,11 +19,14 @@ Install it on your home screen. Press play. That's it.
 ### Features
 
 - Search thousands of stations by name, genre, or mood
-- Favorite stations for instant access
+- Favorite stations with drag-and-drop reordering
 - Recent history — pick up where you left off
 - Hardware media key support (keyboard, headphones, lock screen)
+- Next/previous track via media keys to cycle through favorites
 - Works offline once installed (cached app shell)
-- Respects your language (EN, ES, FR, DE, JA, RU, ZH)
+- Settings panel with language and color scheme selection
+- 10 languages: English, Español, Français, Deutsch, 日本語, Русский, 中文, Português, 한국어, Italiano
+- 8 dark color themes: Ocean, Ember, Amethyst, Forest, Rose, Mono, Sunset, Aurora
 - Dark, glassmorphic UI that stays out of the way
 
 ---
