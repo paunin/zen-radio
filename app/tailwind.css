@@ -14,6 +14,81 @@
   --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
+:root {
+  --color-glow: 100, 200, 255;
+  --color-bg-panel: 10, 10, 15;
+}
+
+/* Theme overrides — ocean is the default defined in @theme above */
+[data-theme="ocean"] {
+  --color-bg: #0c1117;
+  --color-bg-panel: 10, 14, 22;
+  --color-panel: rgba(10, 14, 22, 0.92);
+}
+[data-theme="ember"] {
+  --color-glow: 255, 159, 67;
+  --color-bg: #151008;
+  --color-bg-panel: 18, 14, 8;
+  --color-panel: rgba(18, 14, 8, 0.92);
+  --color-accent: rgba(255, 159, 67, 0.95);
+  --color-accent-dim: rgba(255, 159, 67, 0.12);
+  --color-playing: rgba(255, 159, 67, 0.12);
+}
+[data-theme="amethyst"] {
+  --color-glow: 181, 122, 255;
+  --color-bg: #110c18;
+  --color-bg-panel: 14, 10, 20;
+  --color-panel: rgba(14, 10, 20, 0.92);
+  --color-accent: rgba(181, 122, 255, 0.95);
+  --color-accent-dim: rgba(181, 122, 255, 0.12);
+  --color-playing: rgba(181, 122, 255, 0.12);
+}
+[data-theme="forest"] {
+  --color-glow: 92, 214, 123;
+  --color-bg: #0a140d;
+  --color-bg-panel: 8, 16, 11;
+  --color-panel: rgba(8, 16, 11, 0.92);
+  --color-accent: rgba(92, 214, 123, 0.95);
+  --color-accent-dim: rgba(92, 214, 123, 0.12);
+  --color-playing: rgba(92, 214, 123, 0.12);
+}
+[data-theme="rose"] {
+  --color-glow: 255, 126, 179;
+  --color-bg: #150c11;
+  --color-bg-panel: 18, 10, 14;
+  --color-panel: rgba(18, 10, 14, 0.92);
+  --color-accent: rgba(255, 126, 179, 0.95);
+  --color-accent-dim: rgba(255, 126, 179, 0.12);
+  --color-playing: rgba(255, 126, 179, 0.12);
+}
+[data-theme="monochrome"] {
+  --color-glow: 192, 192, 192;
+  --color-bg: #111111;
+  --color-bg-panel: 12, 12, 12;
+  --color-panel: rgba(12, 12, 12, 0.92);
+  --color-accent: rgba(192, 192, 192, 0.95);
+  --color-accent-dim: rgba(192, 192, 192, 0.12);
+  --color-playing: rgba(192, 192, 192, 0.12);
+}
+[data-theme="sunset"] {
+  --color-glow: 255, 107, 107;
+  --color-bg: #15100c;
+  --color-bg-panel: 18, 12, 10;
+  --color-panel: rgba(18, 12, 10, 0.92);
+  --color-accent: rgba(255, 107, 107, 0.95);
+  --color-accent-dim: rgba(255, 107, 107, 0.12);
+  --color-playing: rgba(255, 107, 107, 0.12);
+}
+[data-theme="aurora"] {
+  --color-glow: 67, 232, 216;
+  --color-bg: #0a1414;
+  --color-bg-panel: 8, 16, 16;
+  --color-panel: rgba(8, 16, 16, 0.92);
+  --color-accent: rgba(67, 232, 216, 0.95);
+  --color-accent-dim: rgba(67, 232, 216, 0.12);
+  --color-playing: rgba(67, 232, 216, 0.12);
+}
+
 @layer base {
   *,
   *::before,

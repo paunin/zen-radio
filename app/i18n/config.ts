@@ -9,6 +9,9 @@ import de from "./locales/de/translation.json";
 import ja from "./locales/ja/translation.json";
 import ru from "./locales/ru/translation.json";
 import zh from "./locales/zh/translation.json";
+import pt from "./locales/pt/translation.json";
+import ko from "./locales/ko/translation.json";
+import it from "./locales/it/translation.json";
 
 export async function initI18n() {
   await i18n
@@ -23,14 +26,18 @@ export async function initI18n() {
         ja: { translation: ja },
         ru: { translation: ru },
         zh: { translation: zh },
+        pt: { translation: pt },
+        ko: { translation: ko },
+        it: { translation: it },
       },
       fallbackLng: "en",
       interpolation: {
         escapeValue: false,
       },
       detection: {
-        order: ["navigator", "htmlTag"],
-        caches: [],
+        order: ["localStorage", "navigator", "htmlTag"],
+        caches: ["localStorage"],
+        lookupLocalStorage: "radioLanguage",
       },
     });
 

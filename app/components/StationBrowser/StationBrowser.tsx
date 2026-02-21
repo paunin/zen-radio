@@ -8,6 +8,7 @@ import { SearchBar } from "./SearchBar";
 import { SearchResults } from "./SearchResults";
 import { FavoritesSection } from "./FavoritesSection";
 import { RecentSection } from "./RecentSection";
+import { Settings } from "~/components/Settings/Settings";
 
 const SUGGESTIONS = [
   { searchTerm: "jazz", labelKey: "suggestJazz" },
@@ -135,6 +136,7 @@ export function StationBrowser() {
   const { searchInputRef, state } = useRadio();
   const search = useStationSearch();
   const [searchOpen, setSearchOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [suggestionsExpanded, setSuggestionsExpanded] = useState(() =>
     getItem<boolean>(STORAGE_KEYS.suggestionsExpanded, true)
   );
@@ -156,69 +158,101 @@ export function StationBrowser() {
     setSearchOpen(false);
   }, [search]);
 
+  const handleSearchOpen = useCallback(() => {
+    setSearchOpen(true);
+    setSettingsOpen(false);
+  }, []);
+
   return (
     <div className="flex flex-col gap-2 h-full min-h-0">
-      <div className="px-3 pt-1">
-        <SearchBar
-          ref={searchInputRef}
-          query={search.query}
-          isOpen={searchOpen}
-          onChange={search.setQuery}
-          onOpen={() => setSearchOpen(true)}
-          onClose={handleSearchClose}
-        />
+      <div className="flex items-center gap-1.5 px-3 pt-1">
+        <div className="flex-1 min-w-0">
+          <SearchBar
+            ref={searchInputRef}
+            query={search.query}
+            isOpen={searchOpen}
+            onChange={search.setQuery}
+            onOpen={handleSearchOpen}
+            onClose={handleSearchClose}
+          />
+        </div>
+        <div
+          className={`flex-shrink-0 transition-all duration-200 ${
+            searchOpen
+              ? "w-0 opacity-0 overflow-hidden pointer-events-none"
+              : "w-9 opacity-100"
+          }`}
+        >
+          <button
+            onClick={() => setSettingsOpen((prev) => !prev)}
+            className={`p-2 rounded-lg transition-colors cursor-pointer
+              ${settingsOpen
+                ? "text-accent bg-accent-dim"
+                : "text-text-secondary hover:text-text-primary hover:bg-white/5"
+              }`}
+            aria-label={t("settings")}
+          >
+            <Icon name="settings" size={18} />
+          </button>
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto min-h-0 pb-4">
-        {isSearchActive ? (
-          <SearchResults
-            results={search.results}
-            isSearching={search.isSearching}
-            error={search.error}
-            hasSearched={search.hasSearched}
-          />
-        ) : showSuggestions ? (
-          <div className="flex flex-col bg-panel/80 shadow-[0_-2px_16px_rgba(0,0,0,0.3)] rounded-b-lg">
-            {hasRecent ? (
-              <>
-                <button
-                  onClick={() => {
-                    const next = !suggestionsExpanded;
-                    setSuggestionsExpanded(next);
-                    setItem(STORAGE_KEYS.suggestionsExpanded, next);
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-2 cursor-pointer group"
-                >
-                  <span className="text-text-label uppercase text-[0.65rem] tracking-[0.08em] group-hover:text-text-secondary transition-colors">
-                    {t("suggestions")}
-                  </span>
-                  <Icon
-                    name={suggestionsExpanded ? "chevronUp" : "chevronDown"}
-                    size={12}
-                    className="text-text-label"
-                  />
-                </button>
-                {suggestionsExpanded && (
-                  <div className="px-4 pb-3">
-                    <SuggestionPills onSuggestion={handleSuggestion} compact />
-                  </div>
-                )}
-                <RecentSection />
-              </>
-            ) : (
-              <div className="px-4 py-3">
-                <SuggestionPills onSuggestion={handleSuggestion} compact />
-              </div>
-            )}
-          </div>
-        ) : hasContent ? (
-          <div className="flex flex-col gap-2">
-            <FavoritesSection />
-          </div>
-        ) : (
-          <EmptyState onSuggestion={handleSuggestion} />
-        )}
-      </div>
+      {settingsOpen ? (
+        <div className="flex-1 min-h-0">
+          <Settings />
+        </div>
+      ) : (
+        <div className="flex-1 overflow-y-auto min-h-0 pb-4">
+          {isSearchActive ? (
+            <SearchResults
+              results={search.results}
+              isSearching={search.isSearching}
+              error={search.error}
+              hasSearched={search.hasSearched}
+            />
+          ) : showSuggestions ? (
+            <div className="flex flex-col bg-panel/80 shadow-[0_-2px_16px_rgba(0,0,0,0.3)] rounded-b-lg">
+              {hasRecent ? (
+                <>
+                  <button
+                    onClick={() => {
+                      const next = !suggestionsExpanded;
+                      setSuggestionsExpanded(next);
+                      setItem(STORAGE_KEYS.suggestionsExpanded, next);
+                    }}
+                    className="flex items-center gap-1.5 px-3 py-2 cursor-pointer group"
+                  >
+                    <span className="text-text-label uppercase text-[0.65rem] tracking-[0.08em] group-hover:text-text-secondary transition-colors">
+                      {t("suggestions")}
+                    </span>
+                    <Icon
+                      name={suggestionsExpanded ? "chevronUp" : "chevronDown"}
+                      size={12}
+                      className="text-text-label"
+                    />
+                  </button>
+                  {suggestionsExpanded && (
+                    <div className="px-4 pb-3">
+                      <SuggestionPills onSuggestion={handleSuggestion} compact />
+                    </div>
+                  )}
+                  <RecentSection />
+                </>
+              ) : (
+                <div className="px-4 py-3">
+                  <SuggestionPills onSuggestion={handleSuggestion} compact />
+                </div>
+              )}
+            </div>
+          ) : hasContent ? (
+            <div className="flex flex-col gap-2">
+              <FavoritesSection />
+            </div>
+          ) : (
+            <EmptyState onSuggestion={handleSuggestion} />
+          )}
+        </div>
+      )}
     </div>
   );
 }

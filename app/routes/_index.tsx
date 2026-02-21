@@ -9,10 +9,12 @@ import { StationBrowser } from "~/components/StationBrowser/StationBrowser";
 import { Toast } from "~/components/ui/Toast";
 import { PWAInstallPrompt } from "~/components/PWAInstallPrompt";
 import { getStationByUUID } from "~/lib/api";
+import { useColorScheme } from "~/hooks/useColorScheme";
 
 function RadioApp() {
   const { t } = useTranslation();
   const { state, actions, searchInputRef } = useRadio();
+  useColorScheme();
   const deepLinkHandled = useRef(false);
 
   useEffect(() => {
