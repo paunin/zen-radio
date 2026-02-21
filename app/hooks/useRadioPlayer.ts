@@ -87,14 +87,28 @@ export function useRadioPlayer() {
       }
     };
 
+    const reconnectStream = () => {
+      const url = streamUrlRef.current;
+      if (!url || reconnectingRef.current) return;
+      reconnectingRef.current = true;
+      setIsBuffering(true);
+      setMediaSessionPlaybackState("playing");
+      const separator = url.includes("?") ? "&" : "?";
+      audio.src = `${url}${separator}_t=${Date.now()}`;
+      audio.play().catch(() => {
+        reconnectingRef.current = false;
+        setIsBuffering(false);
+        setIsPaused(true);
+        setIsPlaying(false);
+        setMediaSessionPlaybackState("paused");
+      });
+    };
+
     const onStalled = () => {
       if (reconnectingRef.current) return;
       if (!isPlayingRef.current) return;
       if (audio.paused) {
-        setIsPaused(true);
-        setIsPlaying(false);
-        setIsBuffering(false);
-        setMediaSessionPlaybackState("paused");
+        reconnectStream();
       }
     };
 
@@ -104,10 +118,7 @@ export function useRadioPlayer() {
       if (reconnectingRef.current) return;
 
       if (audio.paused) {
-        setIsPaused(true);
-        setIsPlaying(false);
-        setIsBuffering(false);
-        setMediaSessionPlaybackState("paused");
+        reconnectStream();
       }
     };
 
