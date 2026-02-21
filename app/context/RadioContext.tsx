@@ -72,13 +72,35 @@ export function RadioProvider({ children }: { children: ReactNode }) {
     [player.actions, addRecent]
   );
 
-  // MediaSession integration for hardware media keys (keyboard, lock screen, headphones).
-  // Metadata and playbackState are set imperatively inside useRadioPlayer actions
-  // (matching zen-launcher's synchronous approach). This hook only registers handlers once.
+  // Next/previous track: cycle through favorites in a circular loop.
+  // Use a ref so the media session handler always sees the latest favorites list.
+  const favoritesRef = useRef(favorites);
+  favoritesRef.current = favorites;
+
+  const playNextFavorite = useCallback(() => {
+    const favs = favoritesRef.current;
+    if (favs.length === 0) return;
+    const currentId = player.state.currentStation?.id;
+    const idx = favs.findIndex((s) => s.id === currentId);
+    const next = favs[(idx + 1) % favs.length];
+    play(next);
+  }, [play, player.state.currentStation]);
+
+  const playPreviousFavorite = useCallback(() => {
+    const favs = favoritesRef.current;
+    if (favs.length === 0) return;
+    const currentId = player.state.currentStation?.id;
+    const idx = favs.findIndex((s) => s.id === currentId);
+    const prev = favs[(idx - 1 + favs.length) % favs.length];
+    play(prev);
+  }, [play, player.state.currentStation]);
+
   useMediaSession({
     onTogglePlayPause: player.actions.togglePlayPause,
     onPause: player.actions.pause,
     onStop: player.actions.stop,
+    onNextTrack: playNextFavorite,
+    onPreviousTrack: playPreviousFavorite,
   });
 
   // Cross-tab sync — stop local playback when another tab starts

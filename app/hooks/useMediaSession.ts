@@ -81,6 +81,8 @@ interface UseMediaSessionOptions {
   onTogglePlayPause: () => void;
   onPause: () => void;
   onStop: () => void;
+  onNextTrack?: () => void;
+  onPreviousTrack?: () => void;
 }
 
 /**
@@ -95,13 +97,19 @@ export function useMediaSession({
   onTogglePlayPause,
   onPause,
   onStop,
+  onNextTrack,
+  onPreviousTrack,
 }: UseMediaSessionOptions) {
   const toggleRef = useRef(onTogglePlayPause);
   const pauseRef = useRef(onPause);
   const stopRef = useRef(onStop);
+  const nextRef = useRef(onNextTrack);
+  const prevRef = useRef(onPreviousTrack);
   toggleRef.current = onTogglePlayPause;
   pauseRef.current = onPause;
   stopRef.current = onStop;
+  nextRef.current = onNextTrack;
+  prevRef.current = onPreviousTrack;
 
   useEffect(() => {
     if (!("mediaSession" in navigator)) return;
@@ -112,9 +120,8 @@ export function useMediaSession({
     trySetHandler("pause", () => pauseRef.current());
     trySetHandler("stop", () => stopRef.current());
 
-    // Explicitly register no-op handlers to suppress default seek UI on iOS
-    trySetHandler("seekbackward", () => {});
-    trySetHandler("seekforward", () => {});
+    trySetHandler("nexttrack", () => nextRef.current?.());
+    trySetHandler("previoustrack", () => prevRef.current?.());
     trySetHandler("seekto", () => {});
   }, []);
 }
