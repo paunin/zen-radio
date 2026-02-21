@@ -1,0 +1,35 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "858c57a9751f",
+  "session_id": "unknown",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-21T06:48:44.52468Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "app/components/Settings/Settings.tsx",
+    "app/hooks/useColorScheme.ts",
+    "app/i18n/locales/it/translation.json",
+    "app/i18n/locales/ko/translation.json",
+    "app/i18n/locales/pt/translation.json"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "ffee07b30f70",
+  "token_usage": {
+    "input_tokens": 0,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 0,
+    "api_call_count": 0
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-21T06:48:44.438967Z",
+    "agent_lines": 281,
+    "human_added": 309,
+    "human_modified": 56,
+    "human_removed": 0,
+    "total_committed": 646,
+    "agent_percentage": 43.4984520123839
+  },
+  "transcript_path": ".cursor/projects/Users-paunin-Sites-zen-radio/agent-transcripts/77a5ffa2-4c92-447d-bcd7-b68d0ecac52f/77a5ffa2-4c92-447d-bcd7-b68d0ecac52f.jsonl"
+}
