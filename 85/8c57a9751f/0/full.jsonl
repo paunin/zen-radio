@@ -50,3 +50,5 @@
 {"role":"assistant","message":{"content":[{"type":"text","text":"Now let me verify the build still works."}]}}
 {"role":"assistant","message":{"content":[{"type":"text","text":"Everything builds cleanly. Added Portuguese, Korean, and Italian -- the app now supports 10 languages:\n\n| Flag | Language |\n|------|----------|\n| `🇬🇧` English | `🇪🇸` Español |\n| `🇫🇷` Français | `🇩🇪` Deutsch |\n| `🇯🇵` 日本語 | `🇷🇺` Русский |\n| `🇨🇳` 中文 | `🇧🇷` Português |\n| `🇰🇷` 한국어 | `🇮🇹` Italiano |\n\nThey'll display in a 2-column grid (5 rows) in the settings panel. Each has a full translation file covering all UI strings, theme names, and language names."}]}}
 {"role":"user","message":{"content":[{"type":"text","text":"<user_query>\ncommit  / push\n</user_query>"}]}}
+{"role":"assistant","message":{"content":[{"type":"text","text":"GPG signing needs full permissions. Let me retry outside the sandbox."}]}}
+{"role":"assistant","message":{"content":[{"type":"text","text":"Committed and pushed. 19 files changed, 702 insertions -- `9c43328` on `main`."}]}}
